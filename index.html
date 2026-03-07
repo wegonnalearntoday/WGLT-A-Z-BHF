@@ -1,0 +1,724 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WGLT Alphabet Legends</title>
+  <style>
+    :root{
+      --red:#C1121F;
+      --black:#111111;
+      --green:#1B8A5A;
+      --gold:#F2C94C;
+      --cream:#F7F3E8;
+      --ink:#1d1d1d;
+      --card:#fffaf0;
+      --muted:#6c675d;
+      --white:#ffffff;
+      --shadow:0 14px 30px rgba(0,0,0,.18);
+      --radius:20px;
+      --app-width:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.02)),
+        repeating-linear-gradient(90deg, rgba(193,18,31,.06) 0 18px, transparent 18px 36px),
+        linear-gradient(135deg, rgba(27,138,90,.08), rgba(242,201,76,.08)),
+        var(--cream);
+      color:var(--ink);
+    }
+    .app{min-height:100%; display:flex; flex-direction:column;}
+    .topbar{
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:16px; background:var(--black); color:var(--white);
+      border-bottom:4px solid var(--gold); text-align:center; gap:10px;
+    }
+    .brand{display:flex; flex-direction:column; gap:4px; align-items:center;}
+    .brand-title{font-size:clamp(1.2rem,2.8vw,1.8rem); font-weight:800; letter-spacing:.3px;}
+    .brand-sub{font-size:.98rem; color:#f0e5b7;}
+    .status-row{display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
+    .pill{
+      background:#232323; border:2px solid #333; color:#fff; border-radius:999px;
+      padding:8px 12px; font-size:.9rem; font-weight:800;
+    }
+    .pill.gold{border-color:var(--gold); color:var(--gold)}
+    .pill.green{border-color:var(--green); color:#c9ffe0}
+    .pill.red{border-color:var(--red); color:#ffd4d8}
+    .progress-wrap{
+      width:min(var(--app-width), 100%);
+      margin:0 auto;
+      padding:12px 16px 0;
+    }
+    .progress-grid{display:grid; grid-template-columns:repeat(13, minmax(0, 1fr)); gap:6px;}
+    .progress-cell{
+      text-align:center; padding:7px 0; font-weight:800; border-radius:12px;
+      border:2px solid #d8d2c6; background:#fff; color:#595347; user-select:none;
+    }
+    .progress-cell.done{background:var(--green); color:#fff; border-color:var(--green)}
+    .progress-cell.current{background:var(--gold); color:var(--black); border-color:#d6ab23}
+    .main{width:min(var(--app-width),100%); margin:0 auto; padding:16px; display:grid; gap:16px; flex:1;}
+    .panel{
+      background:rgba(255,255,255,.88);
+      backdrop-filter: blur(4px);
+      border:3px solid rgba(17,17,17,.08);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .panel-header{padding:16px 18px; background:linear-gradient(90deg, var(--red), var(--black), var(--green)); color:#fff;}
+    .panel-header h2{margin:0; font-size:clamp(1.2rem,2.7vw,1.8rem);}    
+    .panel-header p{margin:6px 0 0; opacity:.95; font-size:1rem;}
+    .panel-body{padding:18px;}
+    .screen{display:none}
+    .screen.active{display:block}
+    .portal-actions,.bottom-actions{display:flex; flex-wrap:wrap; gap:12px;}
+    .btn{
+      appearance:none; border:none; cursor:pointer; border-radius:18px;
+      padding:14px 18px; font-size:1rem; font-weight:800; min-height:54px;
+      box-shadow:var(--shadow); transition:transform .08s ease;
+    }
+    .btn:active{transform:translateY(1px) scale(.995)}
+    .btn.black{background:var(--black); color:#fff}
+    .btn.red{background:var(--red); color:#fff}
+    .btn.green{background:var(--green); color:#fff}
+    .btn.gold{background:var(--gold); color:var(--black)}
+    .btn.ghost{background:#fff; color:var(--black); border:2px solid #ddd5c7; box-shadow:none}
+    .letter-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(78px, 1fr)); gap:12px; margin-top:10px;}
+    .letter-btn{
+      min-height:78px; border-radius:18px; border:3px solid #d8d1c2; background:#fff;
+      font-size:1.6rem; font-weight:900; cursor:pointer; box-shadow:var(--shadow);
+    }
+    .letter-btn.current{background:var(--gold); color:var(--black); border-color:#d6ab23; animation:pulse 1.2s infinite;}
+    @keyframes pulse {0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+    .reveal-card{display:grid; grid-template-columns:minmax(110px,180px) 1fr; gap:18px; align-items:stretch;}
+    .big-letter{
+      background:linear-gradient(180deg, var(--black), #2b2b2b);
+      color:var(--gold); border-radius:20px; display:flex; align-items:center; justify-content:center;
+      min-height:180px; font-size:clamp(4rem, 13vw, 7rem); font-weight:900; border:4px solid var(--gold);
+    }
+    .bio-card{background:var(--card); border-radius:20px; border:3px solid #e5dcc9; padding:18px; display:grid; gap:12px;}
+    .name-row{display:flex; flex-wrap:wrap; gap:12px; align-items:center;}
+    .name-row h3{margin:0; font-size:clamp(1.5rem, 4vw, 2.3rem);}    
+    .fact{font-size:1.1rem; line-height:1.5; color:#2e2a25; background:#fff; border-left:6px solid var(--red); border-radius:12px; padding:14px;}
+    .helper{color:var(--muted); font-size:.98rem; font-weight:700;}
+    .prompt{font-size:clamp(1.3rem, 4vw, 2rem); font-weight:900; color:var(--black);}
+    .choices{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;}
+    .choice{
+      min-height:74px; border-radius:18px; border:3px solid #ddd3bf; background:#fff;
+      font-size:1.15rem; font-weight:800; cursor:pointer; padding:14px; text-align:center; box-shadow:var(--shadow);
+    }
+    .choice.correct{background:var(--green); color:#fff; border-color:var(--green)}
+    .choice.wrong{background:#ffe2e5; color:var(--red); border-color:var(--red)}
+    .reward-box{display:grid; gap:16px;}
+    .reward-badge{
+      background:linear-gradient(135deg, var(--gold), #ffd86c); color:var(--black);
+      font-size:clamp(1.5rem, 4vw, 2.3rem); font-weight:900; border-radius:22px;
+      padding:18px; text-align:center; border:4px solid #d6ab23;
+    }
+    .stars{font-size:1.15rem; font-weight:900; color:var(--green)}
+    .tiny-note{color:var(--muted); font-size:.95rem; font-weight:700;}
+    .image-slot{
+      background:#fff; border:3px dashed #d8cfbe; border-radius:18px;
+      width:100%; max-width:550px; aspect-ratio:1/1; min-height:220px;
+      display:flex; align-items:center; justify-content:center; overflow:hidden; margin:auto;
+    }
+    .image-slot img{width:100%; height:100%; object-fit:cover; display:block;}
+    .picture-board{display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px;}
+    .picture-choice{
+      border:3px solid #ddd3bf; border-radius:20px; overflow:hidden; background:#fff; cursor:pointer; box-shadow:var(--shadow);
+    }
+    .picture-choice.correct{border-color:var(--green); background:#eefbf4}
+    .picture-choice.wrong{border-color:var(--red); background:#fff0f1}
+    .picture-choice .thumb{aspect-ratio:1/1; width:100%; background:#f5f2ea; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+    .picture-choice .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+    @media (max-width:900px){.progress-grid{grid-template-columns:repeat(7, minmax(0, 1fr));}}
+    @media (max-width:780px){
+      .reveal-card{grid-template-columns:1fr}
+      .big-letter{min-height:130px}
+      .panel-body{padding:14px}
+      .btn,.choice{font-size:1rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-title">WGLT Alphabet Legends</div>
+        <div class="brand-sub">Tap a letter. Meet a legend. Learn the name.</div>
+      </div>
+      <div class="status-row">
+        <div class="pill gold" id="currentGamePill">Game: Alphabet Legends</div>
+        <div class="pill green" id="starsPill">Stars: 0</div>
+        <div class="pill red" id="progressPill">Progress: 0 / 26</div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-grid" id="progressGrid"></div>
+    </div>
+
+    <main class="main">
+      <section class="panel">
+        <div class="panel-header">
+          <h2 id="screenTitle">Letter Portal</h2>
+          <p id="screenSubtitle">Choose any letter or use Auto Play for full-class mode.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="screen active" id="screen-portal">
+            <div class="portal-actions">
+              <button class="btn red" id="miniGameTopBtn">Mini Challenge Game</button>
+              <button class="btn black" id="pictureGameTopBtn">Picture Match Game</button>
+              <button class="btn gold" id="playAZBtn">Play A–Z</button>
+              <button class="btn green" id="teacherAutoBtn">Auto Play</button>
+              <button class="btn ghost" id="resetBtn">Reset Progress</button>
+            </div>
+            <p class="helper" style="margin-top:16px;">Use your Wix image links in the roster below. Each image slot is built for a 550 × 550 square.</p>
+            <div class="letter-grid" id="letterGrid"></div>
+          </div>
+
+          <div class="screen" id="screen-reveal">
+            <div class="reveal-card">
+              <div class="big-letter" id="revealLetter">A</div>
+              <div class="bio-card">
+                <div class="helper" id="revealIntro">A is for...</div>
+                <div style="display:grid; grid-template-columns:minmax(220px,550px) 1fr; gap:16px; align-items:center;">
+                  <div class="image-slot">
+                    <img id="revealImage" alt="Historical figure" />
+                  </div>
+                  <div>
+                    <div class="name-row">
+                      <h3 id="revealName">Angelou</h3>
+                    </div>
+                    <div class="fact" id="revealFact">Maya Angelou wrote poems and stories that inspired people.</div>
+                    <div class="helper" id="revealFullName">Full name: Maya Angelou</div>
+                  </div>
+                </div>
+                <div class="bottom-actions">
+                  <button class="btn black" id="hearAgainBtn">Hear It Again</button>
+                  <button class="btn gold" id="revealNextBtn">Next Letter</button>
+                  <button class="btn ghost" id="revealHomeBtn">Home</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen" id="screen-challenge">
+            <div style="display:grid; gap:16px;">
+              <div class="prompt" id="challengePrompt">Tap the correct last name.</div>
+              <div class="choices" id="challengeChoices"></div>
+              <div class="tiny-note">This is a separate mini game from the letter learning screen.</div>
+              <div class="bottom-actions">
+                <button class="btn gold" id="challengeNextBtn">Next Challenge</button>
+                <button class="btn ghost" id="challengeHomeBtn">Home</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen" id="screen-picture-game">
+            <div style="display:grid; gap:16px;">
+              <div class="prompt" id="picturePrompt">Tap the right picture.</div>
+              <div class="picture-board" id="pictureChoices"></div>
+              <div class="tiny-note">The prompt uses the full name, and the pictures have no labels.</div>
+              <div class="bottom-actions">
+                <button class="btn gold" id="pictureNextBtn">Next Picture Round</button>
+                <button class="btn ghost" id="pictureHomeBtn">Home</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen" id="screen-finale">
+            <div class="reward-box">
+              <div class="reward-badge" id="finalBadgeTitle">🏆 WGLT Alphabet Scholar Badge Unlocked!</div>
+              <div class="fact" id="finalBadgeText">You completed the full alphabet run. Tap below to jump back in.</div>
+              <div class="stars" id="finalStarsText">Stars earned: 26</div>
+              <div class="bottom-actions">
+                <button class="btn gold" id="finalReplayBtn">Play Again</button>
+                <button class="btn black" id="finalHomeBtn">Back to Portal</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function notifyWixGameReady() {
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'GAME_READY', game: 'wglt-alphabet-legends' }, '*');
+          window.parent.postMessage({ type: 'HTML_READY', game: 'wglt-alphabet-legends' }, '*');
+          window.parent.postMessage('GAME_READY', '*');
+        }
+      } catch (err) {
+        console.warn('Wix ready notification failed', err);
+      }
+    }
+
+    const LEGENDS = [
+      { letter:'A', firstName:'Maya', lastName:'Angelou', fact:'Maya Angelou wrote poems and stories that inspired people.', image:'https://static.wixstatic.com/media/your-angelou-image.jpg', distractors:['Anderson','Abbott'] },
+      { letter:'B', firstName:'Ella', lastName:'Baker', fact:'Ella Baker helped people work together for justice.', image:'https://static.wixstatic.com/media/your-baker-image.jpg', distractors:['Banks','Brown'] },
+      { letter:'C', firstName:'George Washington', lastName:'Carver', fact:'George Washington Carver studied plants and helped farmers grow better crops.', image:'https://static.wixstatic.com/media/your-carver-image.jpg', distractors:['Coleman','Carter'] },
+      { letter:'D', firstName:'W.E.B.', lastName:'Du Bois', fact:'W.E.B. Du Bois used writing and learning to fight for fairness.', image:'https://static.wixstatic.com/media/your-dubois-image.jpg', distractors:['Douglas','Dorsey'] },
+      { letter:'E', firstName:'Medgar', lastName:'Evers', fact:'Medgar Evers stood up bravely for civil rights.', image:'https://static.wixstatic.com/media/your-evers-image.jpg', distractors:['Ellis','Edwards'] },
+      { letter:'F', firstName:'Aretha', lastName:'Franklin', fact:'Aretha Franklin was a famous singer called the Queen of Soul.', image:'https://static.wixstatic.com/media/your-franklin-image.jpg', distractors:['Fields','Foster'] },
+      { letter:'G', firstName:'Marcus', lastName:'Garvey', fact:'Marcus Garvey taught pride, unity, and leadership.', image:'https://static.wixstatic.com/media/your-garvey-image.jpg', distractors:['Green','Grant'] },
+      { letter:'H', firstName:'Langston', lastName:'Hughes', fact:'Langston Hughes wrote poems during the Harlem Renaissance.', image:'https://static.wixstatic.com/media/your-hughes-image.jpg', distractors:['Hill','Howard'] },
+      { letter:'I', firstName:'Cheryl Boone', lastName:'Isaacs', fact:'Cheryl Boone Isaacs helped lead major work in film and entertainment.', image:'https://static.wixstatic.com/media/your-isaacs-image.jpg', distractors:['Irving','Ingram'] },
+      { letter:'J', firstName:'Jesse', lastName:'Jackson', fact:'Jesse Jackson is a civil rights leader who spoke for fairness.', image:'https://static.wixstatic.com/media/your-jackson-image.jpg', distractors:['Jefferson','Jordan'] },
+      { letter:'K', firstName:'Martin Luther', lastName:'King Jr.', fact:'Martin Luther King Jr. shared a dream of equality and peace.', image:'https://static.wixstatic.com/media/your-king-image.jpg', distractors:['Knight','Knox'] },
+      { letter:'L', firstName:'John', lastName:'Lewis', fact:'John Lewis marched and worked for voting rights and justice.', image:'https://static.wixstatic.com/media/your-lewis-image.jpg', distractors:['Lawson','Long'] },
+      { letter:'M', firstName:'Thurgood', lastName:'Marshall', fact:'Thurgood Marshall was the first Black justice on the U.S. Supreme Court.', image:'https://static.wixstatic.com/media/your-marshall-image.jpg', distractors:['Mason','Moore'] },
+      { letter:'N', firstName:'Huey P.', lastName:'Newton', fact:'Huey P. Newton spoke about strength and change in the community.', image:'https://static.wixstatic.com/media/your-newton-image.jpg', distractors:['Nelson','Norris'] },
+      { letter:'O', firstName:'Barack', lastName:'Obama', fact:'Barack Obama became the 44th president of the United States.', image:'https://static.wixstatic.com/media/your-obama-image.jpg', distractors:['Owens','Oliver'] },
+      { letter:'P', firstName:'Rosa', lastName:'Parks', fact:'Rosa Parks showed courage during the Montgomery Bus Boycott.', image:'https://static.wixstatic.com/media/your-parks-image.jpg', distractors:['Price','Perry'] },
+      { letter:'Q', firstName:'Benjamin', lastName:'Quarles', fact:'Benjamin Quarles wrote important history about African Americans.', image:'https://static.wixstatic.com/media/your-quarles-image.jpg', distractors:['Quinn','Quick'] },
+      { letter:'R', firstName:'Jackie', lastName:'Robinson', fact:'Jackie Robinson broke barriers in Major League Baseball.', image:'https://static.wixstatic.com/media/your-robinson-image.jpg', distractors:['Reed','Ross'] },
+      { letter:'S', firstName:'Tupac Amaru', lastName:'Shakur', fact:'Tupac Shakur used music and poetry to tell powerful stories.', image:'https://static.wixstatic.com/media/your-shakur-image.jpg', distractors:['Scott','Sims'] },
+      { letter:'T', firstName:'Harriet', lastName:'Tubman', fact:'Harriet Tubman helped lead people to freedom.', image:'https://static.wixstatic.com/media/your-tubman-image.jpg', distractors:['Taylor','Thomas'] },
+      { letter:'U', firstName:'Leslie', lastName:'Uggams', fact:'Leslie Uggams is a talented actress and singer.', image:'https://static.wixstatic.com/media/your-uggams-image.jpg', distractors:['Underwood','Usher'] },
+      { letter:'V', firstName:'James', lastName:'Van Der Zee', fact:'James Van Der Zee took photographs that preserved important history.', image:'https://static.wixstatic.com/media/your-vanderzee-image.jpg', distractors:['Vaughn','Vincent'] },
+      { letter:'W', firstName:'Booker T.', lastName:'Washington', fact:'Booker T. Washington helped build schools and learning opportunities.', image:'https://static.wixstatic.com/media/your-washington-image.jpg', distractors:['Walker','White'] },
+      { letter:'X', firstName:'Malcolm', lastName:'X', fact:'Malcolm X was a bold speaker for dignity, respect, and empowerment.', image:'https://static.wixstatic.com/media/your-malcolmx-image.jpg', distractors:['Xavier','Xeno'] },
+      { letter:'Y', firstName:'Whitney', lastName:'Young', fact:'Whitney Young worked for equal opportunity and civil rights.', image:'https://static.wixstatic.com/media/your-young-image.jpg', distractors:['York','Yates'] },
+      { letter:'Z', firstName:'Shaka', lastName:'Zulu', fact:'Shaka Zulu was a powerful leader known for courage and strategy.', image:'https://static.wixstatic.com/media/your-zulu-image.jpg', distractors:['Zimmer','Zane'] }
+    ];
+
+    const ENCOURAGEMENTS = [
+      'Great job!',
+      'You got it!',
+      'Nice work!',
+      'Awesome answer!',
+      'Super smart!',
+      'Way to go!',
+      'You nailed it!',
+      'Excellent thinking!',
+      'Boom! Correct!',
+      'History hero move!'
+    ];
+
+    const state = {
+      index: 0,
+      autoTimer: null,
+      teacherAuto: false,
+      challengeIndex: 0,
+      pictureIndex: 0,
+      game: 'alphabet',
+      alphabetCompleted: new Set(),
+      challengeCompleted: new Set(),
+      pictureCompleted: new Set(),
+      alphabetStars: 0,
+      challengeStars: 0,
+      pictureStars: 0
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const screens = ['portal','reveal','challenge','picture-game','finale'];
+
+    function shuffle(arr){
+      const copy = [...arr];
+      for(let i=copy.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [copy[i],copy[j]] = [copy[j],copy[i]];
+      }
+      return copy;
+    }
+
+    function sample(arr){
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function currentLegend(){ return LEGENDS[state.index]; }
+    function currentChallengeLegend(){ return LEGENDS[state.challengeIndex]; }
+    function currentPictureLegend(){ return LEGENDS[state.pictureIndex]; }
+
+    function clearTimer(){
+      if(state.autoTimer){
+        clearTimeout(state.autoTimer);
+        state.autoTimer = null;
+      }
+    }
+
+    function speak(text){
+      if(!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.92;
+      u.pitch = 1;
+      window.speechSynthesis.speak(u);
+    }
+
+    function praise(){
+      return sample(ENCOURAGEMENTS);
+    }
+
+    function showScreen(name){
+      clearTimer();
+      screens.forEach((s) => {
+        const el = $('screen-' + s);
+        if(el) el.classList.toggle('active', s === name);
+      });
+      updateTopBar();
+      renderProgress();
+    }
+
+    function updateTopBar(){
+      let gameName = 'Alphabet Legends';
+      let stars = state.alphabetStars;
+      let progress = state.alphabetCompleted.size;
+
+      if(state.game === 'challenge'){
+        gameName = 'Mini Challenge';
+        stars = state.challengeStars;
+        progress = state.challengeCompleted.size;
+      } else if(state.game === 'picture'){
+        gameName = 'Picture Match';
+        stars = state.pictureStars;
+        progress = state.pictureCompleted.size;
+      }
+
+      $('currentGamePill').textContent = `Game: ${gameName}`;
+      $('starsPill').textContent = `Stars: ${stars}`;
+      $('progressPill').textContent = `Progress: ${progress} / ${LEGENDS.length}`;
+    }
+
+    function renderProgress(){
+      const grid = $('progressGrid');
+      grid.innerHTML = '';
+
+      let doneSet = state.alphabetCompleted;
+      let currentIdx = state.index;
+
+      if(state.game === 'challenge'){
+        doneSet = state.challengeCompleted;
+        currentIdx = state.challengeIndex;
+      } else if(state.game === 'picture'){
+        doneSet = state.pictureCompleted;
+        currentIdx = state.pictureIndex;
+      }
+
+      LEGENDS.forEach((item, idx) => {
+        const d = document.createElement('div');
+        d.className = 'progress-cell';
+        if(doneSet.has(item.letter)) d.classList.add('done');
+        if(idx === currentIdx && !$('screen-portal').classList.contains('active')) d.classList.add('current');
+        d.textContent = item.letter;
+        grid.appendChild(d);
+      });
+    }
+
+    function renderPortal(){
+      const wrap = $('letterGrid');
+      wrap.innerHTML = '';
+      LEGENDS.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'letter-btn';
+        if(idx === state.index && state.game === 'alphabet') btn.classList.add('current');
+        btn.textContent = item.letter;
+        btn.addEventListener('click', () => {
+          state.teacherAuto = false;
+          state.game = 'alphabet';
+          state.index = idx;
+          startReveal();
+        });
+        wrap.appendChild(btn);
+      });
+    }
+
+    function setHeader(title, sub){
+      $('screenTitle').textContent = title;
+      $('screenSubtitle').textContent = sub;
+    }
+
+    function startPortal(){
+      state.game = 'alphabet';
+      setHeader('Letter Portal', 'Choose any letter or use Auto Play for full-class mode.');
+      renderPortal();
+      showScreen('portal');
+    }
+
+    function applyImage(imgEl, src, label){
+      imgEl.src = src;
+      imgEl.onerror = () => {
+        imgEl.src = `https://via.placeholder.com/550?text=${encodeURIComponent(label)}`;
+      };
+    }
+
+    function startReveal(){
+      state.game = 'alphabet';
+      const x = currentLegend();
+      $('revealLetter').textContent = x.letter;
+      $('revealIntro').textContent = `${x.letter} is for...`;
+      $('revealName').textContent = x.lastName;
+      $('revealFact').textContent = x.fact;
+      $('revealFullName').textContent = `Full name: ${x.firstName} ${x.lastName}`;
+      applyImage($('revealImage'), x.image, `${x.firstName} ${x.lastName}`);
+      setHeader('Stage 1: Character Reveal', 'Tap through the alphabet and learn one simple fact with a 550 × 550 image slot.');
+      showScreen('reveal');
+      speak(`${x.letter} is for ${x.lastName}. ${x.fact}`);
+
+      if(!state.alphabetCompleted.has(x.letter)){
+        state.alphabetCompleted.add(x.letter);
+        state.alphabetStars += 1;
+        updateTopBar();
+        renderProgress();
+      }
+
+      if(state.teacherAuto){
+        state.autoTimer = setTimeout(() => {
+          if(state.alphabetCompleted.size >= LEGENDS.length){
+            startFinale('alphabet');
+          } else {
+            state.index = Math.min(state.index + 1, LEGENDS.length - 1);
+            startReveal();
+          }
+        }, 10000);
+      }
+    }
+
+    function buildChallengeChoices(){
+      const x = currentChallengeLegend();
+      return shuffle([x.lastName, ...x.distractors]);
+    }
+
+    function startChallenge(){
+      state.game = 'challenge';
+      const x = currentChallengeLegend();
+      setHeader('Mini Challenge Game', 'Tap the correct last name. This game has its own stars and progress tracker.');
+      $('challengePrompt').textContent = `Tap the correct last name for ${x.firstName}.`;
+      const choicesWrap = $('challengeChoices');
+      choicesWrap.innerHTML = '';
+      buildChallengeChoices().forEach((choice) => {
+        const btn = document.createElement('button');
+        btn.className = 'choice';
+        btn.textContent = choice;
+        btn.addEventListener('click', () => handleChallenge(choice, btn));
+        choicesWrap.appendChild(btn);
+      });
+      showScreen('challenge');
+    }
+
+    function handleChallenge(choice, btn){
+      const x = currentChallengeLegend();
+      const all = [...$('challengeChoices').querySelectorAll('.choice')];
+      all.forEach((b) => { b.disabled = true; });
+
+      if(choice === x.lastName){
+        btn.classList.add('correct');
+        if(!state.challengeCompleted.has(x.letter)){
+          state.challengeCompleted.add(x.letter);
+          state.challengeStars += 1;
+        }
+        updateTopBar();
+        renderProgress();
+        speak(`${praise()} ${x.lastName}.`);
+        if(state.challengeCompleted.size >= LEGENDS.length){
+          setTimeout(() => startFinale('challenge'), 900);
+        }
+      } else {
+        btn.classList.add('wrong');
+        const correct = all.find((b) => b.textContent === x.lastName);
+        if(correct) correct.classList.add('correct');
+        speak(`The correct answer is ${x.lastName}.`);
+      }
+    }
+
+    function buildPictureChoices(){
+      const correct = currentPictureLegend();
+      const pool = LEGENDS.filter((x) => x.letter !== correct.letter);
+      const others = shuffle(pool).slice(0, 3);
+      return shuffle([correct, ...others]);
+    }
+
+    function getPicturePromptText(legend){
+      return `Tap the picture for ${legend.firstName} ${legend.lastName}.`;
+    }
+
+    function startPictureGame(){
+      state.game = 'picture';
+      const x = currentPictureLegend();
+      setHeader('Picture Match Game', 'Tap the correct picture. This game has its own stars and progress tracker.');
+      $('picturePrompt').textContent = getPicturePromptText(x);
+      const wrap = $('pictureChoices');
+      wrap.innerHTML = '';
+
+      buildPictureChoices().forEach((person) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'picture-choice';
+        btn.innerHTML = '<div class="thumb"><img alt="" /></div>';
+        const img = btn.querySelector('img');
+        img.alt = `${person.firstName} ${person.lastName}`;
+        applyImage(img, person.image, `${person.firstName} ${person.lastName}`);
+        btn.addEventListener('click', () => handlePictureChoice(person, btn));
+        wrap.appendChild(btn);
+      });
+
+      showScreen('picture-game');
+    }
+
+    function handlePictureChoice(person, btn){
+      const correct = currentPictureLegend();
+      const all = [...$('pictureChoices').querySelectorAll('.picture-choice')];
+      all.forEach((b) => { b.disabled = true; });
+
+      if(person.letter === correct.letter){
+        btn.classList.add('correct');
+        if(!state.pictureCompleted.has(correct.letter)){
+          state.pictureCompleted.add(correct.letter);
+          state.pictureStars += 1;
+        }
+        updateTopBar();
+        renderProgress();
+        speak(`${praise()} ${correct.firstName} ${correct.lastName}.`);
+        if(state.pictureCompleted.size >= LEGENDS.length){
+          setTimeout(() => startFinale('picture'), 900);
+        }
+      } else {
+        btn.classList.add('wrong');
+        const correctIdx = buildPictureChoices; // no-op guard removed from earlier broken version
+        const cards = [...$('pictureChoices').children];
+        cards.forEach((card, idx) => {
+          const img = card.querySelector('img');
+          if(img && img.alt === `${correct.firstName} ${correct.lastName}`){
+            card.classList.add('correct');
+          }
+        });
+        speak(`The correct picture is ${correct.firstName} ${correct.lastName}.`);
+      }
+    }
+
+    function startFinale(whichGame){
+      state.game = whichGame;
+      let title = '🏆 WGLT Alphabet Scholar Badge Unlocked!';
+      let text = 'You completed the full A to Z Alphabet Legends run.';
+      let stars = state.alphabetStars;
+
+      if(whichGame === 'challenge'){
+        title = '🏆 WGLT Mini Challenge Scholar Badge Unlocked!';
+        text = 'You completed all 26 Mini Challenge rounds.';
+        stars = state.challengeStars;
+      } else if(whichGame === 'picture'){
+        title = '🏆 WGLT Picture Match Scholar Badge Unlocked!';
+        text = 'You completed all 26 Picture Match rounds.';
+        stars = state.pictureStars;
+      }
+
+      $('finalBadgeTitle').textContent = title;
+      $('finalBadgeText').textContent = text;
+      $('finalStarsText').textContent = `Stars earned: ${stars}`;
+      setHeader('Scholar Badge Screen', 'You completed the full game and unlocked the badge.');
+      showScreen('finale');
+      speak('Congratulations! You unlocked the scholar badge.');
+    }
+
+    $('playAZBtn').addEventListener('click', () => {
+      state.teacherAuto = false;
+      state.game = 'alphabet';
+      state.index = 0;
+      startReveal();
+    });
+
+    $('teacherAutoBtn').addEventListener('click', () => {
+      state.teacherAuto = true;
+      state.game = 'alphabet';
+      state.index = 0;
+      startReveal();
+    });
+
+    $('resetBtn').addEventListener('click', () => {
+      state.teacherAuto = false;
+      state.index = 0;
+      state.challengeIndex = 0;
+      state.pictureIndex = 0;
+      state.alphabetCompleted = new Set();
+      state.challengeCompleted = new Set();
+      state.pictureCompleted = new Set();
+      state.alphabetStars = 0;
+      state.challengeStars = 0;
+      state.pictureStars = 0;
+      startPortal();
+    });
+
+    $('miniGameTopBtn').addEventListener('click', () => {
+      state.teacherAuto = false;
+      state.game = 'challenge';
+      startChallenge();
+    });
+
+    $('pictureGameTopBtn').addEventListener('click', () => {
+      state.teacherAuto = false;
+      state.game = 'picture';
+      startPictureGame();
+    });
+
+    $('hearAgainBtn').addEventListener('click', () => {
+      const x = currentLegend();
+      speak(`${x.letter} is for ${x.lastName}. ${x.fact}`);
+    });
+
+    $('revealNextBtn').addEventListener('click', () => {
+      if(state.index >= LEGENDS.length - 1 || state.alphabetCompleted.size >= LEGENDS.length){
+        startFinale('alphabet');
+      } else {
+        state.index += 1;
+        startReveal();
+      }
+    });
+
+    $('revealHomeBtn').addEventListener('click', startPortal);
+    $('challengeHomeBtn').addEventListener('click', startPortal);
+
+    $('challengeNextBtn').addEventListener('click', () => {
+      state.game = 'challenge';
+      state.challengeIndex = (state.challengeIndex + 1) % LEGENDS.length;
+      startChallenge();
+    });
+
+    $('pictureHomeBtn').addEventListener('click', startPortal);
+
+    $('pictureNextBtn').addEventListener('click', () => {
+      state.game = 'picture';
+      state.pictureIndex = (state.pictureIndex + 1) % LEGENDS.length;
+      startPictureGame();
+    });
+
+    $('finalReplayBtn').addEventListener('click', () => {
+      if(state.game === 'challenge'){
+        state.challengeIndex = 0;
+        startChallenge();
+      } else if(state.game === 'picture'){
+        state.pictureIndex = 0;
+        startPictureGame();
+      } else {
+        state.teacherAuto = false;
+        state.index = 0;
+        startReveal();
+      }
+    });
+
+    $('finalHomeBtn').addEventListener('click', startPortal);
+
+    window.addEventListener('load', () => {
+      startPortal();
+      setTimeout(notifyWixGameReady, 150);
+      setTimeout(notifyWixGameReady, 600);
+    });
+  </script>
+  <script>
+/* Notify Wix loader that the HTML game is ready */
+window.addEventListener("load", function () {
+  if (window.parent) {
+    window.parent.postMessage({ type: "WGLT_READY" }, "*");
+  }
+});
+</script>
+</body>
+</html>
