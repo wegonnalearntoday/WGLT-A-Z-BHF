@@ -148,10 +148,11 @@
   <div class="app">
     <div class="topbar">
       <div class="brand">
-        <div class="brand-title">WGLT Alphabet Legends</div>
-        <div class="brand-sub">Tap a letter. Meet a legend. Learn the name.</div>
+        <div class="brand-title" id="brandTitle">WGLT Alphabet Legends</div>
+        <div class="brand-sub" id="brandSub">Tap a letter. Meet a legend. Learn the name.</div>
       </div>
       <div class="status-row">
+        <button class="btn ghost" id="languageToggleBtn" type="button">Español</button>
         <div class="pill gold" id="currentGamePill">Game: Alphabet Legends</div>
         <div class="pill green" id="starsPill">Stars: 0</div>
         <div class="pill red" id="progressPill">Progress: 0 / 26</div>
@@ -172,13 +173,13 @@
 
           <div class="screen active" id="screen-portal">
             <div class="portal-actions">
-              <button class="btn red" id="miniGameTopBtn">Mini Challenge Game</button>
-              <button class="btn black" id="pictureGameTopBtn">Picture Match Game</button>
-              <button class="btn gold" id="playAZBtn">Play A–Z</button>
-              <button class="btn green" id="teacherAutoBtn">Auto Play</button>
-              <button class="btn ghost" id="resetBtn">Reset Progress</button>
+              <button class="btn red" id="miniGameTopBtn" type="button">Mini Challenge Game</button>
+              <button class="btn black" id="pictureGameTopBtn" type="button">Picture Match Game</button>
+              <button class="btn gold" id="playAZBtn" type="button">Play A–Z</button>
+              <button class="btn green" id="teacherAutoBtn" type="button">Auto Play</button>
+              <button class="btn ghost" id="resetBtn" type="button">Reset Progress</button>
             </div>
-            <p class="helper" style="margin-top:16px;">Use your Wix image links in the roster below. Each image slot is built for a 550 × 550 square.</p>
+            <p class="helper" id="portalHelper" style="margin-top:16px;">Use your Wix image links in the roster below. Each image slot is built for a 550 × 550 square.</p>
             <div class="letter-grid" id="letterGrid"></div>
           </div>
 
@@ -200,9 +201,9 @@
                   </div>
                 </div>
                 <div class="bottom-actions">
-                  <button class="btn black" id="hearAgainBtn">Hear It Again</button>
-                  <button class="btn gold" id="revealNextBtn">Next Letter</button>
-                  <button class="btn ghost" id="revealHomeBtn">Home</button>
+                  <button class="btn black" id="hearAgainBtn" type="button">Hear It Again</button>
+                  <button class="btn gold" id="revealNextBtn" type="button">Next Letter</button>
+                  <button class="btn ghost" id="revealHomeBtn" type="button">Home</button>
                 </div>
               </div>
             </div>
@@ -212,10 +213,10 @@
             <div style="display:grid; gap:16px;">
               <div class="prompt" id="challengePrompt">Tap the correct last name.</div>
               <div class="choices" id="challengeChoices"></div>
-              <div class="tiny-note">This is a separate mini game from the letter learning screen.</div>
+              <div class="tiny-note" id="challengeNote">This is a separate mini game from the letter learning screen.</div>
               <div class="bottom-actions">
-                <button class="btn gold" id="challengeNextBtn">Next Challenge</button>
-                <button class="btn ghost" id="challengeHomeBtn">Home</button>
+                <button class="btn gold" id="challengeNextBtn" type="button">Next Challenge</button>
+                <button class="btn ghost" id="challengeHomeBtn" type="button">Home</button>
               </div>
             </div>
           </div>
@@ -224,10 +225,10 @@
             <div style="display:grid; gap:16px;">
               <div class="prompt" id="picturePrompt">Tap the right picture.</div>
               <div class="picture-board" id="pictureChoices"></div>
-              <div class="tiny-note">The prompt uses the full name, and the pictures have no labels.</div>
+              <div class="tiny-note" id="pictureNote">The prompt uses the full name, and the pictures have no labels.</div>
               <div class="bottom-actions">
-                <button class="btn gold" id="pictureNextBtn">Next Picture Round</button>
-                <button class="btn ghost" id="pictureHomeBtn">Home</button>
+                <button class="btn gold" id="pictureNextBtn" type="button">Next Picture Round</button>
+                <button class="btn ghost" id="pictureHomeBtn" type="button">Home</button>
               </div>
             </div>
           </div>
@@ -238,8 +239,8 @@
               <div class="fact" id="finalBadgeText">You completed the full alphabet run. Tap below to jump back in.</div>
               <div class="stars" id="finalStarsText">Stars earned: 26</div>
               <div class="bottom-actions">
-                <button class="btn gold" id="finalReplayBtn">Play Again</button>
-                <button class="btn black" id="finalHomeBtn">Back to Portal</button>
+                <button class="btn gold" id="finalReplayBtn" type="button">Play Again</button>
+                <button class="btn black" id="finalHomeBtn" type="button">Back to Portal</button>
               </div>
             </div>
           </div>
@@ -262,47 +263,149 @@
       }
     }
 
+    const AUTO_PLAY_TIME = 3500;
+    let currentLanguage = 'en';
+
+    const UI = {
+      en: {
+        brandTitle: 'WGLT Alphabet Legends',
+        brandSub: 'Tap a letter. Meet a legend. Learn the name.',
+        toggleButton: 'Español',
+        gameAlphabet: 'Alphabet Legends',
+        gameChallenge: 'Mini Challenge',
+        gamePicture: 'Picture Match',
+        stars: 'Stars',
+        progress: 'Progress',
+        portalTitle: 'Letter Portal',
+        portalSubtitle: 'Choose any letter or use Auto Play for full-class mode.',
+        portalHelper: 'Use your Wix image links in the roster below. Each image slot is built for a 550 × 550 square.',
+        miniGameBtn: 'Mini Challenge Game',
+        pictureGameBtn: 'Picture Match Game',
+        playBtn: 'Play A–Z',
+        autoPlayBtn: 'Auto Play',
+        resetBtn: 'Reset Progress',
+        revealTitle: 'Stage 1: Character Reveal',
+        revealSubtitle: 'Tap through the alphabet and learn one simple fact with a 550 × 550 image slot.',
+        hearAgainBtn: 'Hear It Again',
+        nextLetterBtn: 'Next Letter',
+        homeBtn: 'Home',
+        fullName: 'Full name',
+        challengeTitle: 'Mini Challenge Game',
+        challengeSubtitle: 'Tap the correct last name. This game has its own stars and progress tracker.',
+        challengePrompt: (firstName) => `Tap the correct last name for ${firstName}.`,
+        challengeNote: 'This is a separate mini game from the letter learning screen.',
+        nextChallengeBtn: 'Next Challenge',
+        pictureTitle: 'Picture Match Game',
+        pictureSubtitle: 'Tap the correct picture. This game has its own stars and progress tracker.',
+        picturePrompt: (fullName) => `Tap the picture for ${fullName}.`,
+        pictureNote: 'The prompt uses the full name, and the pictures have no labels.',
+        nextPictureBtn: 'Next Picture Round',
+        finaleTitle: 'Scholar Badge Screen',
+        finaleSubtitle: 'You completed the full game and unlocked the badge.',
+        playAgainBtn: 'Play Again',
+        finalHomeBtn: 'Back to Portal',
+        alphabetBadge: '🏆 WGLT Alphabet Scholar Badge Unlocked!',
+        alphabetBadgeText: 'You completed the full A to Z Alphabet Legends run.',
+        challengeBadge: '🏆 WGLT Mini Challenge Scholar Badge Unlocked!',
+        challengeBadgeText: 'You completed all 26 Mini Challenge rounds.',
+        pictureBadge: '🏆 WGLT Picture Match Scholar Badge Unlocked!',
+        pictureBadgeText: 'You completed all 26 Picture Match rounds.',
+        starsEarned: (n) => `Stars earned: ${n}`,
+        revealIntro: (letter) => `${letter} is for...`,
+        correctAnswerIs: (name) => `The correct answer is ${name}.`,
+        correctPictureIs: (name) => `The correct picture is ${name}.`,
+        congratulations: 'Congratulations! You unlocked the scholar badge.'
+      },
+      es: {
+        brandTitle: 'WGLT Leyendas del Alfabeto',
+        brandSub: 'Toca una letra. Conoce una leyenda. Aprende el nombre.',
+        toggleButton: 'English',
+        gameAlphabet: 'Leyendas del Alfabeto',
+        gameChallenge: 'Reto Rápido',
+        gamePicture: 'Juego de Imágenes',
+        stars: 'Estrellas',
+        progress: 'Progreso',
+        portalTitle: 'Portal de Letras',
+        portalSubtitle: 'Elige cualquier letra o usa Reproducción automática para toda la clase.',
+        portalHelper: 'Usa tus enlaces de imágenes de Wix en la lista de abajo. Cada espacio de imagen está hecho para 550 × 550.',
+        miniGameBtn: 'Juego de Reto Rápido',
+        pictureGameBtn: 'Juego de Imágenes',
+        playBtn: 'Jugar A–Z',
+        autoPlayBtn: 'Reproducción automática',
+        resetBtn: 'Reiniciar progreso',
+        revealTitle: 'Etapa 1: Presentación del personaje',
+        revealSubtitle: 'Toca para avanzar por el alfabeto y aprender un dato simple con una imagen de 550 × 550.',
+        hearAgainBtn: 'Escuchar otra vez',
+        nextLetterBtn: 'Siguiente letra',
+        homeBtn: 'Inicio',
+        fullName: 'Nombre completo',
+        challengeTitle: 'Juego de Reto Rápido',
+        challengeSubtitle: 'Toca el apellido correcto. Este juego tiene sus propias estrellas y su propio progreso.',
+        challengePrompt: (firstName) => `Toca el apellido correcto de ${firstName}.`,
+        challengeNote: 'Este es un juego separado de la pantalla de aprendizaje de letras.',
+        nextChallengeBtn: 'Siguiente reto',
+        pictureTitle: 'Juego de Imágenes',
+        pictureSubtitle: 'Toca la imagen correcta. Este juego tiene sus propias estrellas y su propio progreso.',
+        picturePrompt: (fullName) => `Toca la imagen de ${fullName}.`,
+        pictureNote: 'La instrucción usa el nombre completo y las imágenes no tienen etiquetas.',
+        nextPictureBtn: 'Siguiente ronda',
+        finaleTitle: 'Pantalla de Insignia',
+        finaleSubtitle: 'Completaste el juego y desbloqueaste la insignia.',
+        playAgainBtn: 'Jugar de nuevo',
+        finalHomeBtn: 'Volver al portal',
+        alphabetBadge: '🏆 ¡Insignia de Erudito del Alfabeto WGLT desbloqueada!',
+        alphabetBadgeText: 'Completaste todo el recorrido de A a Z de Leyendas del Alfabeto.',
+        challengeBadge: '🏆 ¡Insignia de Erudito del Reto Rápido WGLT desbloqueada!',
+        challengeBadgeText: 'Completaste las 26 rondas del Reto Rápido.',
+        pictureBadge: '🏆 ¡Insignia de Erudito del Juego de Imágenes WGLT desbloqueada!',
+        pictureBadgeText: 'Completaste las 26 rondas del Juego de Imágenes.',
+        starsEarned: (n) => `Estrellas ganadas: ${n}`,
+        revealIntro: (letter) => `${letter} es de...`,
+        correctAnswerIs: (name) => `La respuesta correcta es ${name}.`,
+        correctPictureIs: (name) => `La imagen correcta es ${name}.`,
+        congratulations: '¡Felicidades! Desbloqueaste la insignia de erudito.'
+      }
+    };
+
     const LEGENDS = [
-      { letter:'A', firstName:'Maya', lastName:'Angelou', fact:'Maya Angelou wrote poems and stories that inspired people.', image:'https://static.wixstatic.com/media/your-angelou-image.jpg', distractors:['Anderson','Abbott'] },
-      { letter:'B', firstName:'Ella', lastName:'Baker', fact:'Ella Baker helped people work together for justice.', image:'https://static.wixstatic.com/media/your-baker-image.jpg', distractors:['Banks','Brown'] },
-      { letter:'C', firstName:'George Washington', lastName:'Carver', fact:'George Washington Carver studied plants and helped farmers grow better crops.', image:'https://static.wixstatic.com/media/your-carver-image.jpg', distractors:['Coleman','Carter'] },
-      { letter:'D', firstName:'W.E.B.', lastName:'Du Bois', fact:'W.E.B. Du Bois used writing and learning to fight for fairness.', image:'https://static.wixstatic.com/media/your-dubois-image.jpg', distractors:['Douglas','Dorsey'] },
-      { letter:'E', firstName:'Medgar', lastName:'Evers', fact:'Medgar Evers stood up bravely for civil rights.', image:'https://static.wixstatic.com/media/your-evers-image.jpg', distractors:['Ellis','Edwards'] },
-      { letter:'F', firstName:'Aretha', lastName:'Franklin', fact:'Aretha Franklin was a famous singer called the Queen of Soul.', image:'https://static.wixstatic.com/media/your-franklin-image.jpg', distractors:['Fields','Foster'] },
-      { letter:'G', firstName:'Marcus', lastName:'Garvey', fact:'Marcus Garvey taught pride, unity, and leadership.', image:'https://static.wixstatic.com/media/your-garvey-image.jpg', distractors:['Green','Grant'] },
-      { letter:'H', firstName:'Langston', lastName:'Hughes', fact:'Langston Hughes wrote poems during the Harlem Renaissance.', image:'https://static.wixstatic.com/media/your-hughes-image.jpg', distractors:['Hill','Howard'] },
-      { letter:'I', firstName:'Cheryl Boone', lastName:'Isaacs', fact:'Cheryl Boone Isaacs helped lead major work in film and entertainment.', image:'https://static.wixstatic.com/media/your-isaacs-image.jpg', distractors:['Irving','Ingram'] },
-      { letter:'J', firstName:'Jesse', lastName:'Jackson', fact:'Jesse Jackson is a civil rights leader who spoke for fairness.', image:'https://static.wixstatic.com/media/your-jackson-image.jpg', distractors:['Jefferson','Jordan'] },
-      { letter:'K', firstName:'Martin Luther', lastName:'King Jr.', fact:'Martin Luther King Jr. shared a dream of equality and peace.', image:'https://static.wixstatic.com/media/your-king-image.jpg', distractors:['Knight','Knox'] },
-      { letter:'L', firstName:'John', lastName:'Lewis', fact:'John Lewis marched and worked for voting rights and justice.', image:'https://static.wixstatic.com/media/your-lewis-image.jpg', distractors:['Lawson','Long'] },
-      { letter:'M', firstName:'Thurgood', lastName:'Marshall', fact:'Thurgood Marshall was the first Black justice on the U.S. Supreme Court.', image:'https://static.wixstatic.com/media/your-marshall-image.jpg', distractors:['Mason','Moore'] },
-      { letter:'N', firstName:'Huey P.', lastName:'Newton', fact:'Huey P. Newton spoke about strength and change in the community.', image:'https://static.wixstatic.com/media/your-newton-image.jpg', distractors:['Nelson','Norris'] },
-      { letter:'O', firstName:'Barack', lastName:'Obama', fact:'Barack Obama became the 44th president of the United States.', image:'https://static.wixstatic.com/media/your-obama-image.jpg', distractors:['Owens','Oliver'] },
-      { letter:'P', firstName:'Rosa', lastName:'Parks', fact:'Rosa Parks showed courage during the Montgomery Bus Boycott.', image:'https://static.wixstatic.com/media/your-parks-image.jpg', distractors:['Price','Perry'] },
-      { letter:'Q', firstName:'Benjamin', lastName:'Quarles', fact:'Benjamin Quarles wrote important history about African Americans.', image:'https://static.wixstatic.com/media/your-quarles-image.jpg', distractors:['Quinn','Quick'] },
-      { letter:'R', firstName:'Jackie', lastName:'Robinson', fact:'Jackie Robinson broke barriers in Major League Baseball.', image:'https://static.wixstatic.com/media/your-robinson-image.jpg', distractors:['Reed','Ross'] },
-      { letter:'S', firstName:'Tupac Amaru', lastName:'Shakur', fact:'Tupac Shakur used music and poetry to tell powerful stories.', image:'https://static.wixstatic.com/media/your-shakur-image.jpg', distractors:['Scott','Sims'] },
-      { letter:'T', firstName:'Harriet', lastName:'Tubman', fact:'Harriet Tubman helped lead people to freedom.', image:'https://static.wixstatic.com/media/your-tubman-image.jpg', distractors:['Taylor','Thomas'] },
-      { letter:'U', firstName:'Leslie', lastName:'Uggams', fact:'Leslie Uggams is a talented actress and singer.', image:'https://static.wixstatic.com/media/your-uggams-image.jpg', distractors:['Underwood','Usher'] },
-      { letter:'V', firstName:'James', lastName:'Van Der Zee', fact:'James Van Der Zee took photographs that preserved important history.', image:'https://static.wixstatic.com/media/your-vanderzee-image.jpg', distractors:['Vaughn','Vincent'] },
-      { letter:'W', firstName:'Booker T.', lastName:'Washington', fact:'Booker T. Washington helped build schools and learning opportunities.', image:'https://static.wixstatic.com/media/your-washington-image.jpg', distractors:['Walker','White'] },
-      { letter:'X', firstName:'Malcolm', lastName:'X', fact:'Malcolm X was a bold speaker for dignity, respect, and empowerment.', image:'https://static.wixstatic.com/media/your-malcolmx-image.jpg', distractors:['Xavier','Xeno'] },
-      { letter:'Y', firstName:'Whitney', lastName:'Young', fact:'Whitney Young worked for equal opportunity and civil rights.', image:'https://static.wixstatic.com/media/your-young-image.jpg', distractors:['York','Yates'] },
-      { letter:'Z', firstName:'Shaka', lastName:'Zulu', fact:'Shaka Zulu was a powerful leader known for courage and strategy.', image:'https://static.wixstatic.com/media/your-zulu-image.jpg', distractors:['Zimmer','Zane'] }
+      { letter:'A', firstName:'Maya', lastName:'Angelou', fact_en:'Maya Angelou wrote poems and stories that inspired people.', fact_es:'Maya Angelou escribió poemas e historias que inspiraron a muchas personas.', image:'https://static.wixstatic.com/media/80a41b_ef1020fb79a545cd9238fdabf2908fbc~mv2.png', distractors:['Anderson','Abbott'] },
+      { letter:'B', firstName:'Ella', lastName:'Baker', fact_en:'Ella Baker helped people work together for justice.', fact_es:'Ella Baker ayudó a las personas a trabajar juntas por la justicia.', image:'https://static.wixstatic.com/media/80a41b_769a3f6be36a4cd69f9d925e55dad3e1~mv2.png', distractors:['Banks','Brown'] },
+      { letter:'C', firstName:'George Washington', lastName:'Carver', fact_en:'George Washington Carver studied plants and helped farmers grow better crops.', fact_es:'George Washington Carver estudió las plantas y ayudó a los agricultores a cultivar mejores cosechas.', image:'https://static.wixstatic.com/media/80a41b_0ab05a2a18d54b17895cbafd7962b227~mv2.png', distractors:['Coleman','Carter'] },
+      { letter:'D', firstName:'W.E.B.', lastName:'Du Bois', fact_en:'W.E.B. Du Bois used writing and learning to fight for fairness.', fact_es:'W.E.B. Du Bois usó la escritura y el aprendizaje para luchar por la igualdad.', image:'https://static.wixstatic.com/media/80a41b_3d9e37a4bfea45ac8a5d52229770d1a4~mv2.png', distractors:['Douglas','Dorsey'] },
+      { letter:'E', firstName:'Medgar', lastName:'Evers', fact_en:'Medgar Evers stood up bravely for civil rights.', fact_es:'Medgar Evers defendió con valentía los derechos civiles.', image:'https://static.wixstatic.com/media/80a41b_b7a1018f305a41648ab8a389abac005c~mv2.png', distractors:['Ellis','Edwards'] },
+      { letter:'F', firstName:'Aretha', lastName:'Franklin', fact_en:'Aretha Franklin was a famous singer called the Queen of Soul.', fact_es:'Aretha Franklin fue una cantante famosa conocida como la Reina del Soul.', image:'https://static.wixstatic.com/media/80a41b_d2b9aa9ec373470692c0f6fe9b149a38~mv2.png', distractors:['Fields','Foster'] },
+      { letter:'G', firstName:'Marcus', lastName:'Garvey', fact_en:'Marcus Garvey taught pride, unity, and leadership.', fact_es:'Marcus Garvey enseñó orgullo, unidad y liderazgo.', image:'https://static.wixstatic.com/media/80a41b_fcef026719c540d1af8801f498c06924~mv2.png', distractors:['Green','Grant'] },
+      { letter:'H', firstName:'Langston', lastName:'Hughes', fact_en:'Langston Hughes wrote poems during the Harlem Renaissance.', fact_es:'Langston Hughes escribió poemas durante el Renacimiento de Harlem.', image:'https://static.wixstatic.com/media/80a41b_893772266fce4fd1810db51e321502b7~mv2.png', distractors:['Hill','Howard'] },
+      { letter:'I', firstName:'Cheryl Boone', lastName:'Isaacs', fact_en:'Cheryl Boone Isaacs helped lead major work in film and entertainment.', fact_es:'Cheryl Boone Isaacs ayudó a dirigir importantes trabajos en el cine y el entretenimiento.', image:'https://static.wixstatic.com/media/80a41b_9a419d9ae5b541db91ffe11e260d56c4~mv2.png', distractors:['Irving','Ingram'] },
+      { letter:'J', firstName:'Jesse', lastName:'Jackson', fact_en:'Jesse Jackson is a civil rights leader who spoke for fairness.', fact_es:'Jesse Jackson es un líder de derechos civiles que habló por la igualdad.', image:'https://static.wixstatic.com/media/80a41b_5837554dd38b45de9c064da59c81acba~mv2.png', distractors:['Jefferson','Jordan'] },
+      { letter:'K', firstName:'Martin Luther', lastName:'King Jr.', fact_en:'Martin Luther King Jr. shared a dream of equality and peace.', fact_es:'Martin Luther King Jr. compartió un sueño de igualdad y paz.', image:'https://static.wixstatic.com/media/80a41b_dcbfbb657983475cb847ae1dc55175af~mv2.png', distractors:['Knight','Knox'] },
+      { letter:'L', firstName:'John', lastName:'Lewis', fact_en:'John Lewis marched and worked for voting rights and justice.', fact_es:'John Lewis marchó y trabajó por el derecho al voto y la justicia.', image:'https://static.wixstatic.com/media/80a41b_7cdb7526112f4fe9aa5679ccc0edcfb5~mv2.png', distractors:['Lawson','Long'] },
+      { letter:'M', firstName:'Thurgood', lastName:'Marshall', fact_en:'Thurgood Marshall was the first Black justice on the U.S. Supreme Court.', fact_es:'Thurgood Marshall fue el primer juez afroamericano de la Corte Suprema de Estados Unidos.', image:'https://static.wixstatic.com/media/80a41b_02436a37e4374943b46f2a06c8089911~mv2.png', distractors:['Mason','Moore'] },
+      { letter:'N', firstName:'Huey P.', lastName:'Newton', fact_en:'Huey P. Newton spoke about strength and change in the community.', fact_es:'Huey P. Newton habló sobre la fuerza y el cambio en la comunidad.', image:'https://static.wixstatic.com/media/80a41b_7eb7a990e5644a6ea3b4b609ba0afe12~mv2.png', distractors:['Nelson','Norris'] },
+      { letter:'O', firstName:'Barack', lastName:'Obama', fact_en:'Barack Obama became the 44th president of the United States.', fact_es:'Barack Obama se convirtió en el presidente número 44 de los Estados Unidos.', image:'https://static.wixstatic.com/media/80a41b_1d32ba4766984a8d97bf2c03accf5b88~mv2.png', distractors:['Owens','Oliver'] },
+      { letter:'P', firstName:'Rosa', lastName:'Parks', fact_en:'Rosa Parks showed courage during the Montgomery Bus Boycott.', fact_es:'Rosa Parks mostró valentía durante el boicot de autobuses de Montgomery.', image:'https://static.wixstatic.com/media/80a41b_9e4db2cd68f04463b04a1878e5b8bb24~mv2.png', distractors:['Price','Perry'] },
+      { letter:'Q', firstName:'Benjamin', lastName:'Quarles', fact_en:'Benjamin Quarles wrote important history about African Americans.', fact_es:'Benjamin Quarles escribió una historia importante sobre los afroamericanos.', image:'https://static.wixstatic.com/media/80a41b_8c79ebb76d2348498fb1e83f1a456ab5~mv2.png', distractors:['Quinn','Quick'] },
+      { letter:'R', firstName:'Jackie', lastName:'Robinson', fact_en:'Jackie Robinson broke barriers in Major League Baseball.', fact_es:'Jackie Robinson rompió barreras en las Grandes Ligas de béisbol.', image:'https://static.wixstatic.com/media/80a41b_cb3c2182d68c45d79f6f88a2045b80c1~mv2.png', distractors:['Reed','Ross'] },
+      { letter:'S', firstName:'Tupac Amaru', lastName:'Shakur', fact_en:'Tupac Shakur used music and poetry to tell powerful stories.', fact_es:'Tupac Shakur usó la música y la poesía para contar historias poderosas.', image:'https://static.wixstatic.com/media/80a41b_9631cfb8fca243548f41fd0f16cb3cef~mv2.png', distractors:['Scott','Sims'] },
+      { letter:'T', firstName:'Harriet', lastName:'Tubman', fact_en:'Harriet Tubman helped lead people to freedom.', fact_es:'Harriet Tubman ayudó a guiar a las personas hacia la libertad.', image:'https://static.wixstatic.com/media/80a41b_9dae04a5c4024407860b4621fcbbd2b6~mv2.png', distractors:['Taylor','Thomas'] },
+      { letter:'U', firstName:'Leslie', lastName:'Uggams', fact_en:'Leslie Uggams is a talented actress and singer.', fact_es:'Leslie Uggams es una talentosa actriz y cantante.', image:'https://static.wixstatic.com/media/80a41b_b2aeef461d1f4f1183d8c9d6db770c9c~mv2.png', distractors:['Underwood','Usher'] },
+      { letter:'V', firstName:'James', lastName:'Van Der Zee', fact_en:'James Van Der Zee took photographs that preserved important history.', fact_es:'James Van Der Zee tomó fotografías que preservaron una historia importante.', image:'https://static.wixstatic.com/media/80a41b_63ebf1b6b729440c8f10623a99c9221f~mv2.png', distractors:['Vaughn','Vincent'] },
+      { letter:'W', firstName:'Booker T.', lastName:'Washington', fact_en:'Booker T. Washington helped build schools and learning opportunities.', fact_es:'Booker T. Washington ayudó a construir escuelas y oportunidades de aprendizaje.', image:'https://static.wixstatic.com/media/80a41b_d69afde20a8046cd91f0ceba525e605c~mv2.png', distractors:['Walker','White'] },
+      { letter:'X', firstName:'Malcolm', lastName:'X', fact_en:'Malcolm X was a bold speaker for dignity, respect, and empowerment.', fact_es:'Malcolm X fue un orador valiente a favor de la dignidad, el respeto y el empoderamiento.', image:'https://static.wixstatic.com/media/80a41b_45e868d6c6bb43f999271022254b86c5~mv2.png', distractors:['Xavier','Xeno'] },
+      { letter:'Y', firstName:'Whitney', lastName:'Young', fact_en:'Whitney Young worked for equal opportunity and civil rights.', fact_es:'Whitney Young trabajó por la igualdad de oportunidades y los derechos civiles.', image:'https://static.wixstatic.com/media/80a41b_f6325eb8797f4cdd97c63847d26e93c4~mv2.png', distractors:['York','Yates'] },
+      { letter:'Z', firstName:'Shaka', lastName:'Zulu', fact_en:'Shaka Zulu was a powerful leader known for courage and strategy.', fact_es:'Shaka Zulu fue un líder poderoso conocido por su valentía y estrategia.', image:'https://static.wixstatic.com/media/80a41b_651bb9934ad8490f90344e0c12289490~mv2.png', distractors:['Zimmer','Zane'] }
     ];
 
-    const ENCOURAGEMENTS = [
-      'Great job!',
-      'You got it!',
-      'Nice work!',
-      'Awesome answer!',
-      'Super smart!',
-      'Way to go!',
-      'You nailed it!',
-      'Excellent thinking!',
-      'Boom! Correct!',
-      'History hero move!'
-    ];
+    const ENCOURAGEMENTS = {
+      en: [
+        'Great job!', 'You got it!', 'Nice work!', 'Awesome answer!', 'Super smart!',
+        'Way to go!', 'You nailed it!', 'Excellent thinking!', 'Boom! Correct!', 'History hero move!'
+      ],
+      es: [
+        '¡Buen trabajo!', '¡Lo lograste!', '¡Muy bien!', '¡Respuesta genial!', '¡Qué inteligente!',
+        '¡Así se hace!', '¡Lo clavaste!', '¡Excelente pensamiento!', '¡Boom! ¡Correcto!', '¡Movimiento de héroe de la historia!'
+      ]
+    };
 
     const state = {
       index: 0,
@@ -321,6 +424,9 @@
 
     const $ = (id) => document.getElementById(id);
     const screens = ['portal','reveal','challenge','picture-game','finale'];
+
+    function t(key){ return UI[currentLanguage][key]; }
+    function currentFact(person){ return currentLanguage === 'es' ? person.fact_es : person.fact_en; }
 
     function shuffle(arr){
       const copy = [...arr];
@@ -346,17 +452,66 @@
       }
     }
 
+    function getVoiceForLanguage(langCode){
+      const voices = window.speechSynthesis?.getVoices?.() || [];
+      const wanted = langCode === 'es' ? ['es-US','es-MX','es-ES','es'] : ['en-US','en-GB','en'];
+      for(const target of wanted){
+        const voice = voices.find(v => (v.lang || '').toLowerCase() === target.toLowerCase());
+        if(voice) return voice;
+      }
+      for(const target of wanted){
+        const voice = voices.find(v => (v.lang || '').toLowerCase().startsWith(target.slice(0,2).toLowerCase()));
+        if(voice) return voice;
+      }
+      return null;
+    }
+
     function speak(text){
       if(!('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       u.rate = 0.92;
       u.pitch = 1;
+      u.lang = currentLanguage === 'es' ? 'es-US' : 'en-US';
+      const voice = getVoiceForLanguage(currentLanguage);
+      if(voice) u.voice = voice;
       window.speechSynthesis.speak(u);
     }
 
     function praise(){
-      return sample(ENCOURAGEMENTS);
+      return sample(ENCOURAGEMENTS[currentLanguage]);
+    }
+
+    function updateStaticText(){
+      $('brandTitle').textContent = t('brandTitle');
+      $('brandSub').textContent = t('brandSub');
+      $('languageToggleBtn').textContent = t('toggleButton');
+      $('miniGameTopBtn').textContent = t('miniGameBtn');
+      $('pictureGameTopBtn').textContent = t('pictureGameBtn');
+      $('playAZBtn').textContent = t('playBtn');
+      $('teacherAutoBtn').textContent = t('autoPlayBtn');
+      $('resetBtn').textContent = t('resetBtn');
+      $('portalHelper').textContent = t('portalHelper');
+      $('hearAgainBtn').textContent = t('hearAgainBtn');
+      $('revealNextBtn').textContent = t('nextLetterBtn');
+      $('revealHomeBtn').textContent = t('homeBtn');
+      $('challengeNote').textContent = t('challengeNote');
+      $('challengeNextBtn').textContent = t('nextChallengeBtn');
+      $('challengeHomeBtn').textContent = t('homeBtn');
+      $('pictureNote').textContent = t('pictureNote');
+      $('pictureNextBtn').textContent = t('nextPictureBtn');
+      $('pictureHomeBtn').textContent = t('homeBtn');
+      $('finalReplayBtn').textContent = t('playAgainBtn');
+      $('finalHomeBtn').textContent = t('finalHomeBtn');
+    }
+
+    function rerenderCurrentScreen(){
+      updateStaticText();
+      if($('screen-portal').classList.contains('active')) startPortal();
+      else if($('screen-reveal').classList.contains('active')) startReveal();
+      else if($('screen-challenge').classList.contains('active')) startChallenge();
+      else if($('screen-picture-game').classList.contains('active')) startPictureGame();
+      else if($('screen-finale').classList.contains('active')) startFinale(state.game);
     }
 
     function showScreen(name){
@@ -370,23 +525,23 @@
     }
 
     function updateTopBar(){
-      let gameName = 'Alphabet Legends';
+      let gameName = t('gameAlphabet');
       let stars = state.alphabetStars;
       let progress = state.alphabetCompleted.size;
 
       if(state.game === 'challenge'){
-        gameName = 'Mini Challenge';
+        gameName = t('gameChallenge');
         stars = state.challengeStars;
         progress = state.challengeCompleted.size;
       } else if(state.game === 'picture'){
-        gameName = 'Picture Match';
+        gameName = t('gamePicture');
         stars = state.pictureStars;
         progress = state.pictureCompleted.size;
       }
 
-      $('currentGamePill').textContent = `Game: ${gameName}`;
-      $('starsPill').textContent = `Stars: ${stars}`;
-      $('progressPill').textContent = `Progress: ${progress} / ${LEGENDS.length}`;
+      $('currentGamePill').textContent = `${currentLanguage === 'es' ? 'Juego' : 'Game'}: ${gameName}`;
+      $('starsPill').textContent = `${t('stars')}: ${stars}`;
+      $('progressPill').textContent = `${t('progress')}: ${progress} / ${LEGENDS.length}`;
     }
 
     function renderProgress(){
@@ -420,6 +575,7 @@
       LEGENDS.forEach((item, idx) => {
         const btn = document.createElement('button');
         btn.className = 'letter-btn';
+        btn.type = 'button';
         if(idx === state.index && state.game === 'alphabet') btn.classList.add('current');
         btn.textContent = item.letter;
         btn.addEventListener('click', () => {
@@ -439,7 +595,7 @@
 
     function startPortal(){
       state.game = 'alphabet';
-      setHeader('Letter Portal', 'Choose any letter or use Auto Play for full-class mode.');
+      setHeader(t('portalTitle'), t('portalSubtitle'));
       renderPortal();
       showScreen('portal');
     }
@@ -455,14 +611,14 @@
       state.game = 'alphabet';
       const x = currentLegend();
       $('revealLetter').textContent = x.letter;
-      $('revealIntro').textContent = `${x.letter} is for...`;
+      $('revealIntro').textContent = t('revealIntro')(x.letter);
       $('revealName').textContent = x.lastName;
-      $('revealFact').textContent = x.fact;
-      $('revealFullName').textContent = `Full name: ${x.firstName} ${x.lastName}`;
+      $('revealFact').textContent = currentFact(x);
+      $('revealFullName').textContent = `${t('fullName')}: ${x.firstName} ${x.lastName}`;
       applyImage($('revealImage'), x.image, `${x.firstName} ${x.lastName}`);
-      setHeader('Stage 1: Character Reveal', 'Tap through the alphabet and learn one simple fact with a 550 × 550 image slot.');
+      setHeader(t('revealTitle'), t('revealSubtitle'));
       showScreen('reveal');
-      speak(`${x.letter} is for ${x.lastName}. ${x.fact}`);
+      speak(`${x.letter}. ${x.lastName}. ${currentFact(x)}`);
 
       if(!state.alphabetCompleted.has(x.letter)){
         state.alphabetCompleted.add(x.letter);
@@ -479,7 +635,7 @@
             state.index = Math.min(state.index + 1, LEGENDS.length - 1);
             startReveal();
           }
-        }, 10000);
+        }, 8000);
       }
     }
 
@@ -491,13 +647,14 @@
     function startChallenge(){
       state.game = 'challenge';
       const x = currentChallengeLegend();
-      setHeader('Mini Challenge Game', 'Tap the correct last name. This game has its own stars and progress tracker.');
-      $('challengePrompt').textContent = `Tap the correct last name for ${x.firstName}.`;
+      setHeader(t('challengeTitle'), t('challengeSubtitle'));
+      $('challengePrompt').textContent = t('challengePrompt')(x.firstName);
       const choicesWrap = $('challengeChoices');
       choicesWrap.innerHTML = '';
       buildChallengeChoices().forEach((choice) => {
         const btn = document.createElement('button');
         btn.className = 'choice';
+        btn.type = 'button';
         btn.textContent = choice;
         btn.addEventListener('click', () => handleChallenge(choice, btn));
         choicesWrap.appendChild(btn);
@@ -526,7 +683,7 @@
         btn.classList.add('wrong');
         const correct = all.find((b) => b.textContent === x.lastName);
         if(correct) correct.classList.add('correct');
-        speak(`The correct answer is ${x.lastName}.`);
+        speak(t('correctAnswerIs')(x.lastName));
       }
     }
 
@@ -537,15 +694,11 @@
       return shuffle([correct, ...others]);
     }
 
-    function getPicturePromptText(legend){
-      return `Tap the picture for ${legend.firstName} ${legend.lastName}.`;
-    }
-
     function startPictureGame(){
       state.game = 'picture';
       const x = currentPictureLegend();
-      setHeader('Picture Match Game', 'Tap the correct picture. This game has its own stars and progress tracker.');
-      $('picturePrompt').textContent = getPicturePromptText(x);
+      setHeader(t('pictureTitle'), t('pictureSubtitle'));
+      $('picturePrompt').textContent = t('picturePrompt')(`${x.firstName} ${x.lastName}`);
       const wrap = $('pictureChoices');
       wrap.innerHTML = '';
 
@@ -583,41 +736,45 @@
         }
       } else {
         btn.classList.add('wrong');
-        const correctIdx = buildPictureChoices; // no-op guard removed from earlier broken version
         const cards = [...$('pictureChoices').children];
-        cards.forEach((card, idx) => {
+        cards.forEach((card) => {
           const img = card.querySelector('img');
           if(img && img.alt === `${correct.firstName} ${correct.lastName}`){
             card.classList.add('correct');
           }
         });
-        speak(`The correct picture is ${correct.firstName} ${correct.lastName}.`);
+        speak(t('correctPictureIs')(`${correct.firstName} ${correct.lastName}`));
       }
     }
 
     function startFinale(whichGame){
       state.game = whichGame;
-      let title = '🏆 WGLT Alphabet Scholar Badge Unlocked!';
-      let text = 'You completed the full A to Z Alphabet Legends run.';
+      let title = t('alphabetBadge');
+      let text = t('alphabetBadgeText');
       let stars = state.alphabetStars;
 
       if(whichGame === 'challenge'){
-        title = '🏆 WGLT Mini Challenge Scholar Badge Unlocked!';
-        text = 'You completed all 26 Mini Challenge rounds.';
+        title = t('challengeBadge');
+        text = t('challengeBadgeText');
         stars = state.challengeStars;
       } else if(whichGame === 'picture'){
-        title = '🏆 WGLT Picture Match Scholar Badge Unlocked!';
-        text = 'You completed all 26 Picture Match rounds.';
+        title = t('pictureBadge');
+        text = t('pictureBadgeText');
         stars = state.pictureStars;
       }
 
       $('finalBadgeTitle').textContent = title;
       $('finalBadgeText').textContent = text;
-      $('finalStarsText').textContent = `Stars earned: ${stars}`;
-      setHeader('Scholar Badge Screen', 'You completed the full game and unlocked the badge.');
+      $('finalStarsText').textContent = t('starsEarned')(stars);
+      setHeader(t('finaleTitle'), t('finaleSubtitle'));
       showScreen('finale');
-      speak('Congratulations! You unlocked the scholar badge.');
+      speak(t('congratulations'));
     }
+
+    $('languageToggleBtn').addEventListener('click', () => {
+      currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
+      rerenderCurrentScreen();
+    });
 
     $('playAZBtn').addEventListener('click', () => {
       state.teacherAuto = false;
@@ -661,7 +818,7 @@
 
     $('hearAgainBtn').addEventListener('click', () => {
       const x = currentLegend();
-      speak(`${x.letter} is for ${x.lastName}. ${x.fact}`);
+      speak(`${x.letter}. ${x.lastName}. ${currentFact(x)}`);
     });
 
     $('revealNextBtn').addEventListener('click', () => {
@@ -706,19 +863,14 @@
 
     $('finalHomeBtn').addEventListener('click', startPortal);
 
+    window.speechSynthesis?.onvoiceschanged && (window.speechSynthesis.onvoiceschanged = () => {});
+
     window.addEventListener('load', () => {
+      updateStaticText();
       startPortal();
       setTimeout(notifyWixGameReady, 150);
       setTimeout(notifyWixGameReady, 600);
     });
   </script>
-  <script>
-/* Notify Wix loader that the HTML game is ready */
-window.addEventListener("load", function () {
-  if (window.parent) {
-    window.parent.postMessage({ type: "WGLT_READY" }, "*");
-  }
-});
-</script>
 </body>
 </html>
