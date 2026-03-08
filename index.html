@@ -211,6 +211,56 @@
     }
     .stars{font-size:1.15rem; font-weight:900; color:#95d8e4}
     .tiny-note{color:#c8bb9d; font-size:.95rem; font-weight:700;}
+
+    .game-status-bar{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:6px;
+    }
+    .mode-select-wrap{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+      margin-bottom:6px;
+    }
+    .mode-label{
+      font-weight:800; color:var(--parchment);
+    }
+    .mode-select{
+      min-width:150px;
+      appearance:none;
+      border-radius:14px;
+      border:1px solid rgba(241,208,137,.22);
+      background:linear-gradient(180deg, rgba(16,24,32,.98), rgba(10,14,18,.98));
+      color:var(--gold-bright);
+      padding:12px 14px;
+      font-size:.98rem;
+      font-weight:800;
+      box-shadow:var(--shadow-soft);
+    }
+    .mode-chip{
+      background:linear-gradient(180deg, rgba(15,23,31,.96), rgba(8,12,16,.96));
+      border:1px solid rgba(241,208,137,.22);
+      color:var(--gold-bright); border-radius:999px;
+      padding:8px 12px; font-size:.9rem; font-weight:800;
+      box-shadow:var(--shadow-soft);
+    }
+    .timer-wrap{
+      display:grid; gap:8px;
+    }
+    .timer-row{
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      font-weight:800; color:var(--parchment);
+    }
+    .timer-bar{
+      width:100%; height:14px; border-radius:999px; overflow:hidden;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(241,208,137,.18);
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);
+    }
+    .timer-fill{
+      height:100%; width:100%;
+      background:linear-gradient(90deg, var(--gold-bright), var(--copper), var(--teal2));
+      transform-origin:left center;
+      transition:width .12s linear;
+    }
+
     .image-slot{
       background:linear-gradient(180deg, rgba(255,255,255,.72), rgba(246,237,212,.92));
       border:2px dashed rgba(159,99,56,.45); border-radius:18px;
@@ -345,6 +395,25 @@
 
           <div class="screen" id="screen-challenge">
             <div style="display:grid; gap:16px;">
+              <div class="game-status-bar">
+                <div class="mode-chip" id="challengeModeChip">Speed Mode: 3s</div>
+                <div class="mode-chip" id="challengeStarChip">Correct = 3 stars</div>
+              </div>
+              <div class="mode-select-wrap">
+                <label class="mode-label" for="challengeModeSelect" id="challengeModeLabel">Choose mode:</label>
+                <select class="mode-select" id="challengeModeSelect">
+                  <option value="3">3 seconds</option>
+                  <option value="6">6 seconds</option>
+                  <option value="10">10 seconds</option>
+                </select>
+              </div>
+              <div class="timer-wrap">
+                <div class="timer-row">
+                  <span id="challengeTimerLabel">Time left</span>
+                  <span id="challengeTimerValue">3.0s</span>
+                </div>
+                <div class="timer-bar"><div class="timer-fill" id="challengeTimerFill"></div></div>
+              </div>
               <div class="prompt" id="challengePrompt">Tap the correct last name.</div>
               <div class="choices" id="challengeChoices"></div>
               <div class="tiny-note" id="challengeNote">This is a separate mini game from the letter learning screen.</div>
@@ -357,6 +426,25 @@
 
           <div class="screen" id="screen-picture-game">
             <div style="display:grid; gap:16px;">
+              <div class="game-status-bar">
+                <div class="mode-chip" id="pictureModeChip">Speed Mode: 3s</div>
+                <div class="mode-chip" id="pictureStarChip">Correct = 3 stars</div>
+              </div>
+              <div class="mode-select-wrap">
+                <label class="mode-label" for="pictureModeSelect" id="pictureModeLabel">Choose mode:</label>
+                <select class="mode-select" id="pictureModeSelect">
+                  <option value="3">3 seconds</option>
+                  <option value="6">6 seconds</option>
+                  <option value="10">10 seconds</option>
+                </select>
+              </div>
+              <div class="timer-wrap">
+                <div class="timer-row">
+                  <span id="pictureTimerLabel">Time left</span>
+                  <span id="pictureTimerValue">3.0s</span>
+                </div>
+                <div class="timer-bar"><div class="timer-fill" id="pictureTimerFill"></div></div>
+              </div>
               <div class="prompt" id="picturePrompt">Tap the right picture.</div>
               <div class="picture-board" id="pictureChoices"></div>
               <div class="tiny-note" id="pictureNote">The prompt uses the full name, and the pictures have no labels.</div>
@@ -405,6 +493,8 @@
         brandTitle: 'WGLT Alphabet Legends',
         brandSub: 'Tap a letter. Meet a legend. Learn the name.',
         toggleButton: 'Español',
+        chooseMode: 'Choose mode:',
+        secondsLabel: (n) => `${n} seconds`,
         gameAlphabet: 'Alphabet Legends',
         gameChallenge: 'Mini Challenge',
         gamePicture: 'Picture Match',
@@ -425,14 +515,14 @@
         homeBtn: 'Home',
         fullName: 'Full name',
         challengeTitle: 'Mini Challenge Game',
-        challengeSubtitle: 'Tap the correct last name. This game has its own stars and progress tracker.',
+        challengeSubtitle: 'Tap the correct last name before the timer runs out. Choose 3, 6, or 10 seconds and keep that mode until you change it.',
         challengePrompt: (firstName) => `Tap the correct last name for ${firstName}.`,
-        challengeNote: 'This is a separate mini game from the letter learning screen.',
+        challengeNote: 'You choose the timer mode: 3 seconds = 3 stars, 6 seconds = 2 stars, 10 seconds = 1 star.',
         nextChallengeBtn: 'Next Challenge',
         pictureTitle: 'Picture Match Game',
-        pictureSubtitle: 'Tap the correct picture. This game has its own stars and progress tracker.',
+        pictureSubtitle: 'Tap the correct picture before the timer runs out. Choose 3, 6, or 10 seconds and keep that mode until you change it.',
         picturePrompt: (fullName) => `Tap the picture for ${fullName}.`,
-        pictureNote: 'The prompt uses the full name, and the pictures have no labels.',
+        pictureNote: 'You choose the timer mode: 3 seconds = 3 stars, 6 seconds = 2 stars, 10 seconds = 1 star.',
         nextPictureBtn: 'Next Picture Round',
         finaleTitle: 'Scholar Badge Screen',
         finaleSubtitle: 'You completed the full game and unlocked the badge.',
@@ -445,6 +535,10 @@
         pictureBadge: '🏆 WGLT Picture Match Scholar Badge Unlocked!',
         pictureBadgeText: 'You completed all 26 Picture Match rounds.',
         starsEarned: (n) => `Stars earned: ${n}`,
+        timeLeft: 'Time left',
+        speedMode: (secs) => `Speed Mode: ${secs}s`,
+        correctForStars: (stars) => `Correct = ${stars} ${stars === 1 ? 'star' : 'stars'}`,
+        timeUp: 'Time is up!',
         revealIntro: (letter) => `${letter} is for...`,
         correctAnswerIs: (name) => `The correct answer is ${name}.`,
         correctPictureIs: (name) => `The correct picture is ${name}.`,
@@ -454,6 +548,8 @@
         brandTitle: 'WGLT Leyendas del Alfabeto',
         brandSub: 'Toca una letra. Conoce una leyenda. Aprende el nombre.',
         toggleButton: 'English',
+        chooseMode: 'Elegir modo:',
+        secondsLabel: (n) => `${n} segundos`,
         gameAlphabet: 'Leyendas del Alfabeto',
         gameChallenge: 'Reto Rápido',
         gamePicture: 'Juego de Imágenes',
@@ -474,14 +570,14 @@
         homeBtn: 'Inicio',
         fullName: 'Nombre completo',
         challengeTitle: 'Juego de Reto Rápido',
-        challengeSubtitle: 'Toca el apellido correcto. Este juego tiene sus propias estrellas y su propio progreso.',
+        challengeSubtitle: 'Toca el apellido correcto antes de que se acabe el tiempo. Elige 3, 6 o 10 segundos y mantén ese modo hasta cambiarlo.',
         challengePrompt: (firstName) => `Toca el apellido correcto de ${firstName}.`,
-        challengeNote: 'Este es un juego separado de la pantalla de aprendizaje de letras.',
+        challengeNote: 'Tú eliges el modo de tiempo: 3 segundos = 3 estrellas, 6 segundos = 2 estrellas, 10 segundos = 1 estrella.',
         nextChallengeBtn: 'Siguiente reto',
         pictureTitle: 'Juego de Imágenes',
-        pictureSubtitle: 'Toca la imagen correcta. Este juego tiene sus propias estrellas y su propio progreso.',
+        pictureSubtitle: 'Toca la imagen correcta antes de que se acabe el tiempo. Elige 3, 6 o 10 segundos y mantén ese modo hasta cambiarlo.',
         picturePrompt: (fullName) => `Toca la imagen de ${fullName}.`,
-        pictureNote: 'La instrucción usa el nombre completo y las imágenes no tienen etiquetas.',
+        pictureNote: 'Tú eliges el modo de tiempo: 3 segundos = 3 estrellas, 6 segundos = 2 estrellas, 10 segundos = 1 estrella.',
         nextPictureBtn: 'Siguiente ronda',
         finaleTitle: 'Pantalla de Insignia',
         finaleSubtitle: 'Completaste el juego y desbloqueaste la insignia.',
@@ -494,6 +590,10 @@
         pictureBadge: '🏆 ¡Insignia de Erudito del Juego de Imágenes WGLT desbloqueada!',
         pictureBadgeText: 'Completaste las 26 rondas del Juego de Imágenes.',
         starsEarned: (n) => `Estrellas ganadas: ${n}`,
+        timeLeft: 'Tiempo',
+        speedMode: (secs) => `Modo de velocidad: ${secs}s`,
+        correctForStars: (stars) => `Correcto = ${stars} ${stars === 1 ? 'estrella' : 'estrellas'}`,
+        timeUp: '¡Se acabó el tiempo!',
         revealIntro: (letter) => `${letter} es de...`,
         correctAnswerIs: (name) => `La respuesta correcta es ${name}.`,
         correctPictureIs: (name) => `La imagen correcta es ${name}.`,
@@ -541,6 +641,9 @@
       ]
     };
 
+    const TIMER_MODES = [3, 6, 10];
+    const TIMER_STAR_MAP = { 3: 3, 6: 2, 10: 1 };
+
     const state = {
       index: 0,
       autoTimer: null,
@@ -553,7 +656,12 @@
       pictureCompleted: new Set(),
       alphabetStars: 0,
       challengeStars: 0,
-      pictureStars: 0
+      pictureStars: 0,
+      challengeModeSeconds: 3,
+      pictureModeSeconds: 3,
+      roundLocked: false,
+      roundTimer: null,
+      roundTicker: null
     };
 
     const $ = (id) => document.getElementById(id);
@@ -599,11 +707,73 @@
       return pool[Math.floor(Math.random() * pool.length)];
     }
 
+    function clearRoundTimer(){
+      if(state.roundTimer){
+        clearTimeout(state.roundTimer);
+        state.roundTimer = null;
+      }
+      if(state.roundTicker){
+        clearInterval(state.roundTicker);
+        state.roundTicker = null;
+      }
+    }
+
     function clearTimer(){
       if(state.autoTimer){
         clearTimeout(state.autoTimer);
         state.autoTimer = null;
       }
+      clearRoundTimer();
+    }
+
+    function getModeSeconds(game){
+      return game === 'picture' ? state.pictureModeSeconds : state.challengeModeSeconds;
+    }
+
+    function getModeStars(game){
+      return TIMER_STAR_MAP[getModeSeconds(game)] || 1;
+    }
+
+    function updateModeChips(game){
+      const secs = getModeSeconds(game);
+      const stars = getModeStars(game);
+      if(game === 'picture'){
+        $('pictureModeChip').textContent = t('speedMode')(secs);
+        $('pictureStarChip').textContent = t('correctForStars')(stars);
+        $('pictureTimerLabel').textContent = t('timeLeft');
+        $('pictureModeSelect').value = String(secs);
+      } else {
+        $('challengeModeChip').textContent = t('speedMode')(secs);
+        $('challengeStarChip').textContent = t('correctForStars')(stars);
+        $('challengeTimerLabel').textContent = t('timeLeft');
+        $('challengeModeSelect').value = String(secs);
+      }
+    }
+
+    function startRoundTimer(game, onExpire){
+      clearRoundTimer();
+      state.roundLocked = false;
+      const duration = getModeSeconds(game);
+      const fill = game === 'picture' ? $('pictureTimerFill') : $('challengeTimerFill');
+      const value = game === 'picture' ? $('pictureTimerValue') : $('challengeTimerValue');
+      const started = performance.now();
+
+      function paint(){
+        const elapsed = (performance.now() - started) / 1000;
+        const left = Math.max(0, duration - elapsed);
+        value.textContent = `${left.toFixed(1)}s`;
+        fill.style.width = `${Math.max(0, (left / duration) * 100)}%`;
+      }
+
+      paint();
+      state.roundTicker = setInterval(paint, 100);
+      state.roundTimer = setTimeout(() => {
+        clearRoundTimer();
+        state.roundLocked = true;
+        value.textContent = '0.0s';
+        fill.style.width = '0%';
+        onExpire();
+      }, duration * 1000);
     }
 
     function getVoiceForLanguage(langCode){
@@ -655,6 +825,15 @@
       $('pictureNote').textContent = t('pictureNote');
       $('pictureNextBtn').textContent = t('nextPictureBtn');
       $('pictureHomeBtn').textContent = t('homeBtn');
+      $('challengeModeLabel').textContent = t('chooseMode');
+      $('pictureModeLabel').textContent = t('chooseMode');
+      [['challengeModeSelect','challenge'],['pictureModeSelect','picture']].forEach(([id,game]) => {
+        const select = $(id);
+        [...select.options].forEach(opt => {
+          opt.textContent = t('secondsLabel')(Number(opt.value));
+        });
+        select.value = String(getModeSeconds(game));
+      });
       $('finalReplayBtn').textContent = t('playAgainBtn');
       $('finalHomeBtn').textContent = t('finalHomeBtn');
     }
@@ -802,6 +981,7 @@
       state.game = 'challenge';
       const x = currentChallengeLegend();
       setHeader(t('challengeTitle'), t('challengeSubtitle'));
+      updateModeChips('challenge');
       $('challengePrompt').textContent = t('challengePrompt')(x.firstName);
       const choicesWrap = $('challengeChoices');
       choicesWrap.innerHTML = '';
@@ -814,9 +994,13 @@
         choicesWrap.appendChild(btn);
       });
       showScreen('challenge');
+      startRoundTimer('challenge', handleChallengeTimeout);
     }
 
     function handleChallenge(choice, btn){
+      if(state.roundLocked) return;
+      state.roundLocked = true;
+      clearRoundTimer();
       const x = currentChallengeLegend();
       const all = [...$('challengeChoices').querySelectorAll('.choice')];
       all.forEach((b) => { b.disabled = true; });
@@ -825,7 +1009,7 @@
         btn.classList.add('correct');
         if(!state.challengeCompleted.has(x.letter)){
           state.challengeCompleted.add(x.letter);
-          state.challengeStars += 1;
+          state.challengeStars += getModeStars('challenge');
         }
         updateTopBar();
         renderProgress();
@@ -841,6 +1025,16 @@
       }
     }
 
+    function handleChallengeTimeout(){
+      const x = currentChallengeLegend();
+      const all = [...$('challengeChoices').querySelectorAll('.choice')];
+      all.forEach((b) => {
+        b.disabled = true;
+        if(b.textContent === x.lastName) b.classList.add('correct');
+      });
+      speak(`${t('timeUp')} ${t('correctAnswerIs')(x.lastName)}`);
+    }
+
     function buildPictureChoices(){
       const correct = currentPictureLegend();
       const pool = LEGENDS.filter((x) => x.letter !== correct.letter);
@@ -852,6 +1046,7 @@
       state.game = 'picture';
       const x = currentPictureLegend();
       setHeader(t('pictureTitle'), t('pictureSubtitle'));
+      updateModeChips('picture');
       $('picturePrompt').textContent = t('picturePrompt')(`${x.firstName} ${x.lastName}`);
       const wrap = $('pictureChoices');
       wrap.innerHTML = '';
@@ -869,9 +1064,13 @@
       });
 
       showScreen('picture-game');
+      startRoundTimer('picture', handlePictureTimeout);
     }
 
     function handlePictureChoice(person, btn){
+      if(state.roundLocked) return;
+      state.roundLocked = true;
+      clearRoundTimer();
       const correct = currentPictureLegend();
       const all = [...$('pictureChoices').querySelectorAll('.picture-choice')];
       all.forEach((b) => { b.disabled = true; });
@@ -880,7 +1079,7 @@
         btn.classList.add('correct');
         if(!state.pictureCompleted.has(correct.letter)){
           state.pictureCompleted.add(correct.letter);
-          state.pictureStars += 1;
+          state.pictureStars += getModeStars('picture');
         }
         updateTopBar();
         renderProgress();
@@ -899,6 +1098,19 @@
         });
         speak(t('correctPictureIs')(`${correct.firstName} ${correct.lastName}`));
       }
+    }
+
+    function handlePictureTimeout(){
+      const correct = currentPictureLegend();
+      const cards = [...$('pictureChoices').children];
+      cards.forEach((card) => {
+        card.disabled = true;
+        const img = card.querySelector('img');
+        if(img && img.alt === `${correct.firstName} ${correct.lastName}`){
+          card.classList.add('correct');
+        }
+      });
+      speak(`${t('timeUp')} ${t('correctPictureIs')(`${correct.firstName} ${correct.lastName}`)}`);
     }
 
     function startFinale(whichGame){
@@ -955,6 +1167,10 @@
       state.alphabetStars = 0;
       state.challengeStars = 0;
       state.pictureStars = 0;
+      state.challengeModeSeconds = 3;
+      state.pictureModeSeconds = 3;
+      state.roundLocked = false;
+      clearRoundTimer();
       startPortal();
     });
 
@@ -1018,6 +1234,23 @@
     });
 
     $('finalHomeBtn').addEventListener('click', startPortal);
+
+
+    $('challengeModeSelect').addEventListener('change', (e) => {
+      const secs = Number(e.target.value);
+      if(TIMER_MODES.includes(secs)){
+        state.challengeModeSeconds = secs;
+        updateModeChips('challenge');
+      }
+    });
+
+    $('pictureModeSelect').addEventListener('change', (e) => {
+      const secs = Number(e.target.value);
+      if(TIMER_MODES.includes(secs)){
+        state.pictureModeSeconds = secs;
+        updateModeChips('picture');
+      }
+    });
 
     window.speechSynthesis?.onvoiceschanged && (window.speechSynthesis.onvoiceschanged = () => {});
 
