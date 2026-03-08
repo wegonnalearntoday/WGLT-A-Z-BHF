@@ -5,142 +5,276 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WGLT Alphabet Legends</title>
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap");
+
     :root{
-      --red:#C1121F;
-      --black:#111111;
-      --green:#1B8A5A;
-      --gold:#F2C94C;
-      --cream:#F7F3E8;
-      --ink:#1d1d1d;
-      --card:#fffaf0;
-      --muted:#6c675d;
+      --bg:#050608;
+      --bg2:#0b1016;
+      --panel:#101820;
+      --panel2:#182631;
+      --teal:#0f4452;
+      --teal2:#1a5f70;
+      --gold:#d4ab5a;
+      --gold-bright:#f1d089;
+      --bronze:#9f6338;
+      --copper:#b87442;
+      --parchment:#f3e5bf;
+      --cream:#f8edd1;
+      --ink:#131313;
+      --muted:#b8ab8d;
       --white:#ffffff;
-      --shadow:0 14px 30px rgba(0,0,0,.18);
-      --radius:20px;
-      --app-width:1100px;
+      --shadow:0 18px 42px rgba(0,0,0,.45);
+      --shadow-soft:0 10px 26px rgba(0,0,0,.28);
+      --glow:0 0 0 1px rgba(241,208,137,.18), 0 0 24px rgba(212,171,90,.10);
+      --radius:22px;
+      --app-width:1120px;
+      --ring:rgba(241,208,137,.22);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family:Arial, Helvetica, sans-serif;
+      font-family:"Inter", Arial, Helvetica, sans-serif;
+      color:var(--cream);
       background:
-        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.02)),
-        repeating-linear-gradient(90deg, rgba(193,18,31,.06) 0 18px, transparent 18px 36px),
-        linear-gradient(135deg, rgba(27,138,90,.08), rgba(242,201,76,.08)),
-        var(--cream);
-      color:var(--ink);
+        radial-gradient(circle at top, rgba(26,95,112,.26), transparent 26%),
+        radial-gradient(circle at 85% 18%, rgba(184,116,66,.18), transparent 18%),
+        radial-gradient(circle at 15% 78%, rgba(212,171,90,.10), transparent 20%),
+        linear-gradient(180deg, #050608 0%, #090c12 38%, #07090d 100%);
+      background-color:var(--bg);
+      letter-spacing:.01em;
     }
-    .app{min-height:100%; display:flex; flex-direction:column;}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.18;
+      background:
+        linear-gradient(transparent 0 97%, rgba(255,255,255,.04) 100%),
+        radial-gradient(circle at center, rgba(255,214,128,.06) 0, transparent 62%);
+      background-size:100% 6px, 100% 100%;
+      mix-blend-mode:screen;
+    }
+    .app{min-height:100%; display:flex; flex-direction:column; position:relative;}
     .topbar{
       display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:16px; background:var(--black); color:var(--white);
-      border-bottom:4px solid var(--gold); text-align:center; gap:10px;
+      padding:18px 16px;
+      background:
+        linear-gradient(180deg, rgba(12,20,28,.96), rgba(8,12,18,.94)),
+        linear-gradient(90deg, rgba(15,68,82,.25), rgba(184,116,66,.18));
+      color:var(--white);
+      border-bottom:2px solid rgba(212,171,90,.55);
+      box-shadow:0 12px 30px rgba(0,0,0,.32);
+      text-align:center; gap:10px;
     }
-    .brand{display:flex; flex-direction:column; gap:4px; align-items:center;}
-    .brand-title{font-size:clamp(1.2rem,2.8vw,1.8rem); font-weight:800; letter-spacing:.3px;}
-    .brand-sub{font-size:.98rem; color:#f0e5b7;}
+    .brand{display:flex; flex-direction:column; gap:6px; align-items:center;}
+    .brand-title{
+      font-family:"Cinzel", serif;
+      font-size:clamp(1.5rem,3.3vw,2.5rem);
+      font-weight:800;
+      letter-spacing:.06em;
+      color:var(--gold-bright);
+      text-shadow:0 2px 0 rgba(0,0,0,.55), 0 0 22px rgba(212,171,90,.14);
+    }
+    .brand-sub{
+      font-size:1rem;
+      color:#ead6a2;
+      font-weight:600;
+    }
     .status-row{display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
     .pill{
-      background:#232323; border:2px solid #333; color:#fff; border-radius:999px;
-      padding:8px 12px; font-size:.9rem; font-weight:800;
+      background:linear-gradient(180deg, rgba(15,23,31,.96), rgba(8,12,16,.96));
+      border:1px solid rgba(241,208,137,.18);
+      color:#fff; border-radius:999px;
+      padding:8px 14px; font-size:.92rem; font-weight:800;
+      box-shadow:var(--shadow-soft);
     }
-    .pill.gold{border-color:var(--gold); color:var(--gold)}
-    .pill.green{border-color:var(--green); color:#c9ffe0}
-    .pill.red{border-color:var(--red); color:#ffd4d8}
-    .progress-wrap{
-      width:min(var(--app-width), 100%);
-      margin:0 auto;
-      padding:12px 16px 0;
-    }
-    .progress-grid{display:grid; grid-template-columns:repeat(13, minmax(0, 1fr)); gap:6px;}
+    .pill.gold{border-color:rgba(212,171,90,.7); color:var(--gold-bright)}
+    .pill.green{border-color:rgba(26,95,112,.8); color:#c4eff7}
+    .pill.red{border-color:rgba(184,116,66,.8); color:#ffd8c4}
+    .progress-wrap{width:min(var(--app-width), 100%); margin:0 auto; padding:14px 16px 0;}
+    .progress-grid{display:grid; grid-template-columns:repeat(13, minmax(0, 1fr)); gap:7px;}
     .progress-cell{
-      text-align:center; padding:7px 0; font-weight:800; border-radius:12px;
-      border:2px solid #d8d2c6; background:#fff; color:#595347; user-select:none;
+      text-align:center; padding:8px 0; font-weight:800; border-radius:12px;
+      border:1px solid rgba(241,208,137,.18);
+      background:linear-gradient(180deg, rgba(15,23,31,.92), rgba(9,13,18,.92));
+      color:#d8c9a2; user-select:none; box-shadow:var(--shadow-soft);
     }
-    .progress-cell.done{background:var(--green); color:#fff; border-color:var(--green)}
-    .progress-cell.current{background:var(--gold); color:var(--black); border-color:#d6ab23}
-    .main{width:min(var(--app-width),100%); margin:0 auto; padding:16px; display:grid; gap:16px; flex:1;}
+    .progress-cell.done{background:linear-gradient(180deg, #1c6a79, #134d58); color:#fff; border-color:#68b2bf}
+    .progress-cell.current{background:linear-gradient(180deg, var(--gold-bright), var(--gold)); color:#1b1408; border-color:#f5dfaa}
+    .main{width:min(var(--app-width),100%); margin:0 auto; padding:18px 16px 24px; display:grid; gap:16px; flex:1;}
     .panel{
-      background:rgba(255,255,255,.88);
-      backdrop-filter: blur(4px);
-      border:3px solid rgba(17,17,17,.08);
+      background:linear-gradient(180deg, rgba(16,24,32,.94), rgba(11,16,22,.96));
+      border:1px solid rgba(241,208,137,.16);
       border-radius:var(--radius);
-      box-shadow:var(--shadow);
+      box-shadow:var(--shadow), var(--glow);
       overflow:hidden;
+      position:relative;
     }
-    .panel-header{padding:16px 18px; background:linear-gradient(90deg, var(--red), var(--black), var(--green)); color:#fff;}
-    .panel-header h2{margin:0; font-size:clamp(1.2rem,2.7vw,1.8rem);}    
-    .panel-header p{margin:6px 0 0; opacity:.95; font-size:1rem;}
-    .panel-body{padding:18px;}
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:linear-gradient(135deg, rgba(212,171,90,.07), transparent 26%, transparent 72%, rgba(15,68,82,.08));
+    }
+    .panel-header{
+      padding:18px 20px;
+      background:
+        linear-gradient(90deg, rgba(159,99,56,.82), rgba(16,73,88,.92) 45%, rgba(184,116,66,.76));
+      color:#fff;
+      border-bottom:1px solid rgba(241,208,137,.22);
+      position:relative;
+    }
+    .panel-header h2{
+      margin:0;
+      font-family:"Cinzel", serif;
+      font-size:clamp(1.25rem,2.8vw,2rem);
+      letter-spacing:.04em;
+      color:var(--gold-bright);
+      text-shadow:0 1px 0 rgba(0,0,0,.45);
+    }
+    .panel-header p{margin:6px 0 0; opacity:.95; font-size:1rem; color:#f1e2bb;}
+    .panel-body{padding:20px; position:relative; z-index:1;}
     .screen{display:none}
     .screen.active{display:block}
     .portal-actions,.bottom-actions{display:flex; flex-wrap:wrap; gap:12px;}
     .btn{
       appearance:none; border:none; cursor:pointer; border-radius:18px;
       padding:14px 18px; font-size:1rem; font-weight:800; min-height:54px;
-      box-shadow:var(--shadow); transition:transform .08s ease;
+      box-shadow:var(--shadow-soft); transition:transform .08s ease, filter .2s ease, box-shadow .2s ease;
+      font-family:"Oswald", "Inter", sans-serif;
+      letter-spacing:.03em;
+      text-transform:uppercase;
     }
+    .btn:hover{filter:brightness(1.06); box-shadow:0 12px 24px rgba(0,0,0,.34)}
     .btn:active{transform:translateY(1px) scale(.995)}
-    .btn.black{background:var(--black); color:#fff}
-    .btn.red{background:var(--red); color:#fff}
-    .btn.green{background:var(--green); color:#fff}
-    .btn.gold{background:var(--gold); color:var(--black)}
-    .btn.ghost{background:#fff; color:var(--black); border:2px solid #ddd5c7; box-shadow:none}
-    .letter-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(78px, 1fr)); gap:12px; margin-top:10px;}
+    .btn.black{background:linear-gradient(180deg, #0d131a, #06090d); color:#fff; border:1px solid rgba(241,208,137,.18)}
+    .btn.red{background:linear-gradient(180deg, #c3834c, #8c542d); color:#fff}
+    .btn.green{background:linear-gradient(180deg, #1f7082, #134754); color:#fff}
+    .btn.gold{background:linear-gradient(180deg, var(--gold-bright), var(--gold)); color:#1b1408}
+    .btn.ghost{background:rgba(255,255,255,.04); color:var(--parchment); border:1px solid rgba(241,208,137,.18); box-shadow:none}
+    .letter-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(78px, 1fr)); gap:12px; margin-top:12px;}
     .letter-btn{
-      min-height:78px; border-radius:18px; border:3px solid #d8d1c2; background:#fff;
-      font-size:1.6rem; font-weight:900; cursor:pointer; box-shadow:var(--shadow);
+      min-height:82px; border-radius:18px; border:1px solid rgba(241,208,137,.18);
+      background:linear-gradient(180deg, rgba(16,24,32,.98), rgba(10,14,18,.98));
+      color:var(--gold-bright);
+      font-family:"Cinzel", serif;
+      font-size:1.9rem; font-weight:900; cursor:pointer; box-shadow:var(--shadow-soft);
+      text-shadow:0 1px 0 rgba(0,0,0,.55);
     }
-    .letter-btn.current{background:var(--gold); color:var(--black); border-color:#d6ab23; animation:pulse 1.2s infinite;}
+    .letter-btn.current{background:linear-gradient(180deg, var(--gold-bright), var(--gold)); color:#1b1408; border-color:#f0dca4; animation:pulse 1.2s infinite; text-shadow:none;}
     @keyframes pulse {0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
-    .reveal-card{display:grid; grid-template-columns:minmax(110px,180px) 1fr; gap:18px; align-items:stretch;}
+    .reveal-card{display:grid; grid-template-columns:minmax(110px,190px) 1fr; gap:18px; align-items:stretch;}
+    .reveal-content-grid{display:grid; grid-template-columns:minmax(220px,550px) 1fr; gap:16px; align-items:center;}
     .big-letter{
-      background:linear-gradient(180deg, var(--black), #2b2b2b);
-      color:var(--gold); border-radius:20px; display:flex; align-items:center; justify-content:center;
-      min-height:180px; font-size:clamp(4rem, 13vw, 7rem); font-weight:900; border:4px solid var(--gold);
+      background:radial-gradient(circle at 30% 25%, rgba(241,208,137,.14), transparent 25%), linear-gradient(180deg, #123543, #0b1a22);
+      color:var(--gold-bright); border-radius:22px; display:flex; align-items:center; justify-content:center;
+      min-height:180px; font-size:clamp(4rem, 13vw, 7rem); font-weight:900; border:2px solid rgba(241,208,137,.5);
+      font-family:"Cinzel", serif; box-shadow:var(--shadow-soft);
     }
-    .bio-card{background:var(--card); border-radius:20px; border:3px solid #e5dcc9; padding:18px; display:grid; gap:12px;}
+    .bio-card{
+      background:linear-gradient(180deg, rgba(243,229,191,.98), rgba(232,214,170,.96));
+      color:var(--ink);
+      border-radius:22px; border:1px solid rgba(212,171,90,.38); padding:18px; display:grid; gap:12px; box-shadow:var(--shadow-soft);
+    }
     .name-row{display:flex; flex-wrap:wrap; gap:12px; align-items:center;}
-    .name-row h3{margin:0; font-size:clamp(1.5rem, 4vw, 2.3rem);}    
-    .fact{font-size:1.1rem; line-height:1.5; color:#2e2a25; background:#fff; border-left:6px solid var(--red); border-radius:12px; padding:14px;}
-    .helper{color:var(--muted); font-size:.98rem; font-weight:700;}
-    .prompt{font-size:clamp(1.3rem, 4vw, 2rem); font-weight:900; color:var(--black);}
+    .name-row h3{margin:0; font-size:clamp(1.5rem, 4vw, 2.3rem); font-family:"Cinzel", serif; color:#1d232a;}
+    .fact{
+      font-size:1.08rem; line-height:1.6; color:#2e2a25;
+      background:rgba(255,255,255,.72);
+      border-left:6px solid var(--bronze); border-radius:14px; padding:14px 16px;
+      box-shadow:inset 0 0 0 1px rgba(212,171,90,.16);
+    }
+    .helper{color:#5b503c; font-size:.98rem; font-weight:700;}
+    .prompt{
+      font-size:clamp(1.35rem, 4vw, 2rem); font-weight:900; color:var(--gold-bright);
+      font-family:"Cinzel", serif; text-shadow:0 1px 0 rgba(0,0,0,.45);
+    }
     .choices{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;}
     .choice{
-      min-height:74px; border-radius:18px; border:3px solid #ddd3bf; background:#fff;
-      font-size:1.15rem; font-weight:800; cursor:pointer; padding:14px; text-align:center; box-shadow:var(--shadow);
+      min-height:74px; border-radius:18px; border:1px solid rgba(241,208,137,.18);
+      background:linear-gradient(180deg, rgba(16,24,32,.98), rgba(10,14,18,.98)); color:var(--parchment);
+      font-size:1.12rem; font-weight:800; cursor:pointer; padding:14px; text-align:center; box-shadow:var(--shadow-soft);
+      font-family:"Oswald", "Inter", sans-serif; letter-spacing:.03em;
     }
-    .choice.correct{background:var(--green); color:#fff; border-color:var(--green)}
-    .choice.wrong{background:#ffe2e5; color:var(--red); border-color:var(--red)}
+    .choice.correct{background:linear-gradient(180deg, #1e7385, #14505d); color:#fff; border-color:#76c9d8}
+    .choice.wrong{background:linear-gradient(180deg, #ca8552, #925631); color:#fff; border-color:#f2bc9b}
     .reward-box{display:grid; gap:16px;}
     .reward-badge{
-      background:linear-gradient(135deg, var(--gold), #ffd86c); color:var(--black);
+      background:linear-gradient(135deg, var(--gold-bright), #d7a85c 55%, #c58249); color:#1d1408;
       font-size:clamp(1.5rem, 4vw, 2.3rem); font-weight:900; border-radius:22px;
-      padding:18px; text-align:center; border:4px solid #d6ab23;
+      padding:18px; text-align:center; border:2px solid rgba(245,223,170,.9);
+      box-shadow:var(--shadow-soft);
+      font-family:"Cinzel", serif;
     }
-    .stars{font-size:1.15rem; font-weight:900; color:var(--green)}
-    .tiny-note{color:var(--muted); font-size:.95rem; font-weight:700;}
+    .stars{font-size:1.15rem; font-weight:900; color:#95d8e4}
+    .tiny-note{color:#c8bb9d; font-size:.95rem; font-weight:700;}
     .image-slot{
-      background:#fff; border:3px dashed #d8cfbe; border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.72), rgba(246,237,212,.92));
+      border:2px dashed rgba(159,99,56,.45); border-radius:18px;
       width:100%; max-width:550px; aspect-ratio:1/1; min-height:220px;
       display:flex; align-items:center; justify-content:center; overflow:hidden; margin:auto;
+      box-shadow:inset 0 0 0 1px rgba(212,171,90,.16);
     }
     .image-slot img{width:100%; height:100%; object-fit:cover; display:block;}
     .picture-board{display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px;}
     .picture-choice{
-      border:3px solid #ddd3bf; border-radius:20px; overflow:hidden; background:#fff; cursor:pointer; box-shadow:var(--shadow);
+      border:1px solid rgba(241,208,137,.18); border-radius:20px; overflow:hidden;
+      background:linear-gradient(180deg, rgba(16,24,32,.96), rgba(10,14,18,.98)); cursor:pointer; box-shadow:var(--shadow-soft);
     }
-    .picture-choice.correct{border-color:var(--green); background:#eefbf4}
-    .picture-choice.wrong{border-color:var(--red); background:#fff0f1}
-    .picture-choice .thumb{aspect-ratio:1/1; width:100%; background:#f5f2ea; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+    .picture-choice.correct{border-color:#7fd0de; background:linear-gradient(180deg, #174f59, #103b44)}
+    .picture-choice.wrong{border-color:#efbf9a; background:linear-gradient(180deg, #a56439, #7d4a28)}
+    .picture-choice .thumb{aspect-ratio:1/1; width:100%; background:#111821; display:flex; align-items:center; justify-content:center; overflow:hidden;}
     .picture-choice .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
-    @media (max-width:900px){.progress-grid{grid-template-columns:repeat(7, minmax(0, 1fr));}}
+    @media (max-width:900px){
+      .progress-grid{grid-template-columns:repeat(7, minmax(0, 1fr));}
+      .reveal-content-grid{grid-template-columns:minmax(200px,320px) 1fr;}
+    }
     @media (max-width:780px){
-      .reveal-card{grid-template-columns:1fr}
-      .big-letter{min-height:130px}
-      .panel-body{padding:14px}
-      .btn,.choice{font-size:1rem}
+      .topbar{padding:14px 12px;}
+      .status-row{gap:8px;}
+      .pill{padding:7px 11px; font-size:.84rem;}
+      .main{padding:14px 12px 20px;}
+      .panel-body{padding:14px;}
+      .panel-header{padding:15px 14px;}
+      .reveal-card{grid-template-columns:1fr;}
+      .reveal-content-grid{grid-template-columns:1fr;}
+      .big-letter{min-height:120px; font-size:clamp(3.2rem, 18vw, 5.8rem);}
+      .btn,.choice{font-size:.98rem; min-height:50px; padding:12px 14px;}
+      .letter-grid{grid-template-columns:repeat(auto-fit, minmax(64px, 1fr)); gap:10px;}
+      .letter-btn{min-height:68px; font-size:1.6rem;}
+      .image-slot{max-width:100%; min-height:0; aspect-ratio:1/1;}
+      .picture-board{grid-template-columns:repeat(2, minmax(0, 1fr));}
+      .fact{font-size:1rem; line-height:1.5; padding:12px 14px;}
+      .helper{font-size:.94rem;}
+    }
+    @media (max-width:560px){
+      body{font-size:15px;}
+      .brand-title{font-size:clamp(1.25rem, 7vw, 1.9rem);}
+      .brand-sub{font-size:.92rem;}
+      .progress-wrap{padding:10px 12px 0;}
+      .progress-grid{grid-template-columns:repeat(6, minmax(0, 1fr)); gap:6px;}
+      .progress-cell{padding:7px 0; font-size:.88rem; border-radius:10px;}
+      .portal-actions,.bottom-actions{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+      .portal-actions .btn:nth-child(5), .bottom-actions .btn:only-child{grid-column:1 / -1;}
+      .panel-header h2{font-size:1.2rem;}
+      .panel-header p{font-size:.92rem;}
+      .name-row h3{font-size:clamp(1.2rem, 7vw, 1.7rem);}
+      .prompt{font-size:clamp(1.15rem, 6vw, 1.55rem);}
+      .choices{grid-template-columns:1fr;}
+      .picture-board{grid-template-columns:1fr 1fr; gap:10px;}
+      .reward-badge{font-size:clamp(1.2rem, 6.5vw, 1.7rem); padding:14px;}
+    }
+    @media (max-width:420px){
+      .main{padding:12px 10px 18px;}
+      .panel-body{padding:12px;}
+      .portal-actions,.bottom-actions{grid-template-columns:1fr;}
+      .picture-board{grid-template-columns:1fr;}
+      .letter-grid{grid-template-columns:repeat(4, minmax(0, 1fr));}
+      .letter-btn{min-height:62px; font-size:1.35rem; border-radius:14px;}
+      .big-letter{min-height:96px;}
     }
   </style>
 </head>
@@ -188,7 +322,7 @@
               <div class="big-letter" id="revealLetter">A</div>
               <div class="bio-card">
                 <div class="helper" id="revealIntro">A is for...</div>
-                <div style="display:grid; grid-template-columns:minmax(220px,550px) 1fr; gap:16px; align-items:center;">
+                <div class="reveal-content-grid">
                   <div class="image-slot">
                     <img id="revealImage" alt="Historical figure" />
                   </div>
@@ -278,14 +412,14 @@
         progress: 'Progress',
         portalTitle: 'Letter Portal',
         portalSubtitle: 'Choose any letter or use Auto Play for full-class mode.',
-        portalHelper: 'Use your Wix image links in the roster below. Each image slot is built for a 550 × 550 square.',
+        portalHelper: '',
         miniGameBtn: 'Mini Challenge Game',
         pictureGameBtn: 'Picture Match Game',
         playBtn: 'Play A–Z',
         autoPlayBtn: 'Auto Play',
         resetBtn: 'Reset Progress',
         revealTitle: 'Stage 1: Character Reveal',
-        revealSubtitle: 'Tap through the alphabet and learn one simple fact with a 550 × 550 image slot.',
+        revealSubtitle: 'Tap through the alphabet and learn one simple fact.',
         hearAgainBtn: 'Hear It Again',
         nextLetterBtn: 'Next Letter',
         homeBtn: 'Home',
@@ -334,7 +468,7 @@
         autoPlayBtn: 'Reproducción automática',
         resetBtn: 'Reiniciar progreso',
         revealTitle: 'Etapa 1: Presentación del personaje',
-        revealSubtitle: 'Toca para avanzar por el alfabeto y aprender un dato simple con una imagen de 550 × 550.',
+        revealSubtitle: 'Toca para avanzar por el alfabeto y aprender un dato simple.',
         hearAgainBtn: 'Escuchar otra vez',
         nextLetterBtn: 'Siguiente letra',
         homeBtn: 'Inicio',
@@ -378,7 +512,7 @@
       { letter:'H', firstName:'Langston', lastName:'Hughes', fact_en:'Langston Hughes wrote poems during the Harlem Renaissance.', fact_es:'Langston Hughes escribió poemas durante el Renacimiento de Harlem.', image:'https://static.wixstatic.com/media/80a41b_893772266fce4fd1810db51e321502b7~mv2.png', distractors:['Hill','Howard'] },
       { letter:'I', firstName:'Cheryl Boone', lastName:'Isaacs', fact_en:'Cheryl Boone Isaacs helped lead major work in film and entertainment.', fact_es:'Cheryl Boone Isaacs ayudó a dirigir importantes trabajos en el cine y el entretenimiento.', image:'https://static.wixstatic.com/media/80a41b_9a419d9ae5b541db91ffe11e260d56c4~mv2.png', distractors:['Irving','Ingram'] },
       { letter:'J', firstName:'Jesse', lastName:'Jackson', fact_en:'Jesse Jackson is a civil rights leader who spoke for fairness.', fact_es:'Jesse Jackson es un líder de derechos civiles que habló por la igualdad.', image:'https://static.wixstatic.com/media/80a41b_5837554dd38b45de9c064da59c81acba~mv2.png', distractors:['Jefferson','Jordan'] },
-      { letter:'K', firstName:'Martin Luther', lastName:'King Jr.', fact_en:'Martin Luther King Jr. shared a dream of equality and peace.', fact_es:'Martin Luther King Jr. compartió un sueño de igualdad y paz.', image:'https://static.wixstatic.com/media/80a41b_dcbfbb657983475cb847ae1dc55175af~mv2.png', distractors:['Knight','Knox'] },
+      { letter:'K', firstName:'Martin Luther', lastName:'King', fact_en:'Martin Luther King Jr. shared a dream of equality and peace.', fact_es:'Martin Luther King Jr. compartió un sueño de igualdad y paz.', image:'https://static.wixstatic.com/media/80a41b_dcbfbb657983475cb847ae1dc55175af~mv2.png', distractors:['Knight','Knox'] },
       { letter:'L', firstName:'John', lastName:'Lewis', fact_en:'John Lewis marched and worked for voting rights and justice.', fact_es:'John Lewis marchó y trabajó por el derecho al voto y la justicia.', image:'https://static.wixstatic.com/media/80a41b_7cdb7526112f4fe9aa5679ccc0edcfb5~mv2.png', distractors:['Lawson','Long'] },
       { letter:'M', firstName:'Thurgood', lastName:'Marshall', fact_en:'Thurgood Marshall was the first Black justice on the U.S. Supreme Court.', fact_es:'Thurgood Marshall fue el primer juez afroamericano de la Corte Suprema de Estados Unidos.', image:'https://static.wixstatic.com/media/80a41b_02436a37e4374943b46f2a06c8089911~mv2.png', distractors:['Mason','Moore'] },
       { letter:'N', firstName:'Huey P.', lastName:'Newton', fact_en:'Huey P. Newton spoke about strength and change in the community.', fact_es:'Huey P. Newton habló sobre la fuerza y el cambio en la comunidad.', image:'https://static.wixstatic.com/media/80a41b_7eb7a990e5644a6ea3b4b609ba0afe12~mv2.png', distractors:['Nelson','Norris'] },
@@ -444,6 +578,26 @@
     function currentLegend(){ return LEGENDS[state.index]; }
     function currentChallengeLegend(){ return LEGENDS[state.challengeIndex]; }
     function currentPictureLegend(){ return LEGENDS[state.pictureIndex]; }
+    function getRemainingIndexes(doneSet){
+      const remaining = [];
+      for(let i = 0; i < LEGENDS.length; i++){
+        if(!doneSet.has(LEGENDS[i].letter)) remaining.push(i);
+      }
+      return remaining;
+    }
+
+    function pickRandomIndexExcluding(doneSet, currentIdx){
+      const remaining = getRemainingIndexes(doneSet);
+      if(remaining.length === 0){
+        return Math.floor(Math.random() * LEGENDS.length);
+      }
+      let pool = remaining;
+      if(remaining.length > 1){
+        pool = remaining.filter(i => i !== currentIdx);
+        if(pool.length === 0) pool = remaining;
+      }
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
 
     function clearTimer(){
       if(state.autoTimer){
@@ -618,7 +772,7 @@
       applyImage($('revealImage'), x.image, `${x.firstName} ${x.lastName}`);
       setHeader(t('revealTitle'), t('revealSubtitle'));
       showScreen('reveal');
-      speak(`${x.letter}. ${x.lastName}. ${currentFact(x)}`);
+      speak(`${t('revealIntro')(x.letter)} ${x.lastName}... ${currentFact(x)}`);
 
       if(!state.alphabetCompleted.has(x.letter)){
         state.alphabetCompleted.add(x.letter);
@@ -807,18 +961,20 @@
     $('miniGameTopBtn').addEventListener('click', () => {
       state.teacherAuto = false;
       state.game = 'challenge';
+      state.challengeIndex = pickRandomIndexExcluding(state.challengeCompleted, state.challengeIndex);
       startChallenge();
     });
 
     $('pictureGameTopBtn').addEventListener('click', () => {
       state.teacherAuto = false;
       state.game = 'picture';
+      state.pictureIndex = pickRandomIndexExcluding(state.pictureCompleted, state.pictureIndex);
       startPictureGame();
     });
 
     $('hearAgainBtn').addEventListener('click', () => {
       const x = currentLegend();
-      speak(`${x.letter}. ${x.lastName}. ${currentFact(x)}`);
+      speak(`${t('revealIntro')(x.letter)} ${x.lastName}... ${currentFact(x)}`);
     });
 
     $('revealNextBtn').addEventListener('click', () => {
@@ -835,7 +991,7 @@
 
     $('challengeNextBtn').addEventListener('click', () => {
       state.game = 'challenge';
-      state.challengeIndex = (state.challengeIndex + 1) % LEGENDS.length;
+      state.challengeIndex = pickRandomIndexExcluding(state.challengeCompleted, state.challengeIndex);
       startChallenge();
     });
 
@@ -843,16 +999,16 @@
 
     $('pictureNextBtn').addEventListener('click', () => {
       state.game = 'picture';
-      state.pictureIndex = (state.pictureIndex + 1) % LEGENDS.length;
+      state.pictureIndex = pickRandomIndexExcluding(state.pictureCompleted, state.pictureIndex);
       startPictureGame();
     });
 
     $('finalReplayBtn').addEventListener('click', () => {
       if(state.game === 'challenge'){
-        state.challengeIndex = 0;
+        state.challengeIndex = pickRandomIndexExcluding(state.challengeCompleted, state.challengeIndex);
         startChallenge();
       } else if(state.game === 'picture'){
-        state.pictureIndex = 0;
+        state.pictureIndex = pickRandomIndexExcluding(state.pictureCompleted, state.pictureIndex);
         startPictureGame();
       } else {
         state.teacherAuto = false;
@@ -872,5 +1028,13 @@
       setTimeout(notifyWixGameReady, 600);
     });
   </script>
+  <script>
+/* Notify Wix loader that the HTML game is ready */
+window.addEventListener("load", function () {
+  if (window.parent) {
+    window.parent.postMessage({ type: "WGLT_READY" }, "*");
+  }
+});
+</script>
 </body>
 </html>
