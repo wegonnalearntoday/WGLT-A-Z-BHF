@@ -227,12 +227,16 @@
       appearance:none;
       border-radius:14px;
       border:1px solid rgba(241,208,137,.22);
-      background:linear-gradient(180deg, rgba(16,24,32,.98), rgba(10,14,18,.98));
+      background:#000;
       color:var(--gold-bright);
       padding:12px 14px;
       font-size:.98rem;
       font-weight:800;
       box-shadow:var(--shadow-soft);
+    }
+    .mode-select option{
+      background:#000;
+      color:var(--gold-bright);
     }
     .mode-chip{
       background:linear-gradient(180deg, rgba(15,23,31,.96), rgba(8,12,16,.96));
@@ -387,7 +391,7 @@
                 <div class="bottom-actions">
                   <button class="btn black" id="hearAgainBtn" type="button">Hear It Again</button>
                   <button class="btn gold" id="revealNextBtn" type="button">Next Letter</button>
-                  <button class="btn ghost" id="revealHomeBtn" type="button">Home</button>
+                  <button class="btn black" id="revealHomeBtn" type="button">Home</button>
                 </div>
               </div>
             </div>
@@ -951,6 +955,14 @@
       applyImage($('revealImage'), x.image, `${x.firstName} ${x.lastName}`);
       setHeader(t('revealTitle'), t('revealSubtitle'));
       showScreen('reveal');
+
+      setTimeout(() => {
+        const imgSection = document.querySelector('.image-slot');
+        if(imgSection){
+          imgSection.scrollIntoView({ behavior:'smooth', block:'center' });
+        }
+      }, 220);
+
       speak(`${t('revealIntro')(x.letter)} ${x.lastName}... ${currentFact(x)}`);
 
       if(!state.alphabetCompleted.has(x.letter)){
